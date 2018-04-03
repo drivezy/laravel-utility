@@ -12,7 +12,8 @@ class LaravelUtilityServiceProvider extends ServiceProvider {
      */
     public function boot () {
         $this->publishes([
-            __DIR__ . '/Migrations' => database_path('migrations'),
+            __DIR__ . '/Database/Migrations' => database_path('migrations'),
+            __DIR__ . '/Database/Seeds'      => database_path('seeds'),
         ], 'migrations');
     }
 
@@ -22,7 +23,5 @@ class LaravelUtilityServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register () {
-//        $this->commands([LaravelWorkerProcessUpdateCommand::class]);
-//        $this->app->bind('laravelWorker', LaravelWorker::class);
     }
 }
