@@ -22,7 +22,5 @@ class LaravelUtilityServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register () {
-//        $this->commands([LaravelWorkerProcessUpdateCommand::class]);
-//        $this->app->bind('laravelWorker', LaravelWorker::class);
     }
 }
