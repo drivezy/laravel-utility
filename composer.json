@@ -1,14 +1,19 @@
 {
-    "name": "hemantanshu/laravel-utility",
-    "description": "Base functionality for a scalable application.",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Hemant Kumar Sah",
-            "email": "hemantanshu@gmail.com"
-        }
-    ],
-    "minimum-stability": "stable",
-    "require": {}
+  "name": "hemantanshu/laravel-utility",
+  "description": "Base functionality for a scalable application.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Hemant Kumar Sah",
+      "email": "hemantanshu@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "Hemantanshu\\LaravelUtility\\": "src/"
+    }
+  }
 }
