@@ -21,6 +21,8 @@ class CreateHmPropertiesTable extends Migration {
             $table->string('value');
 
             $table->boolean('caching_enabled')->default(true);
+            $table->boolean('is_public')->default(false);
+
             $table->string('description')->nullable();
 
             $table->unsignedInteger('created_by')->nullable();
