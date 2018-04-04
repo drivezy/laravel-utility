@@ -58,7 +58,6 @@ class BaseObserver {
      * @param Eloquent $model
      */
     public function saved (Eloquent $model) {
-        $this->saveObserverEvent($model);
     }
 
     /**
