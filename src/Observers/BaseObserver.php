@@ -1,13 +1,13 @@
 <?php
 
-namespace Hemantanshu\LaravelUtility\Observers;
+namespace Drivezy\LaravelUtility\Observers;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Facades\Auth;
 
 /**
  * Class BaseObserver
- * @package Hemantanshu\LaravelUtility\Observers
+ * @package Drivezy\LaravelUtility\Observers
  */
 class BaseObserver {
     /**

@@ -1,5 +1,5 @@
 {
-  "name": "hemantanshu/laravel-utility",
+  "name": "drivezy/laravel-utility",
   "description": "Base functionality for a scalable application.",
   "type": "library",
   "license": "MIT",
@@ -13,7 +13,7 @@
   "require": {},
   "autoload": {
     "psr-4": {
-      "Hemantanshu\\LaravelUtility\\": "src/"
+      "Drivezy\\LaravelUtility\\": "src/"
     }
   }
 }

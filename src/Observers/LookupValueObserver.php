@@ -1,10 +1,10 @@
 <?php
 
-namespace Hemantanshu\LaravelUtility\Observers;
+namespace Drivezy\LaravelUtility\Observers;
 
 /**
  * Class LookupValueObserver
- * @package Hemantanshu\LaravelUtility\Observers
+ * @package Drivezy\LaravelUtility\Observers
  */
 class LookupValueObserver extends BaseObserver {
 

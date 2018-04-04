@@ -1,13 +1,13 @@
 <?php
 
-namespace Hemantanshu\LaravelUtility;
+namespace Drivezy\LaravelUtility;
 
-use Hemantanshu\LaravelUtility\Models\Property;
+use Drivezy\LaravelUtility\Models\Property;
 use Illuminate\Support\Facades\Cache;
 
 /**
  * Class LaravelUtility
- * @package Hemantanshu\LaravelUtility
+ * @package Drivezy\LaravelUtility
  */
 class LaravelUtility {
 

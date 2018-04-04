@@ -1,14 +1,14 @@
 <?php
 
-namespace Hemantanshu\LaravelUtility\Models;
+namespace Drivezy\LaravelUtility\Models;
 
 
-use Hemantanshu\LaravelUtility\Observers\LookupTypeObserver;
+use Drivezy\LaravelUtility\Observers\LookupTypeObserver;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class LookupType
- * @package Hemantanshu\LaravelUtility\Models
+ * @package Drivezy\LaravelUtility\Models
  */
 class LookupType extends Model {
     /**

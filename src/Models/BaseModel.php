@@ -1,13 +1,13 @@
 <?php
 
-namespace Hemantanshu\LaravelUtility\Models;
+namespace Drivezy\LaravelUtility\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class BaseModel
- * @package Hemantanshu\LaravelUtility\Models
+ * @package Drivezy\LaravelUtility\Models
  */
 class BaseModel extends Model {
 
