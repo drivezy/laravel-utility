@@ -12,7 +12,7 @@ class CreateHmLookupTypesTable extends Migration {
      * @return void
      */
     public function up () {
-        Schema::create('hm_lookup_types', function (Blueprint $table) {
+        Schema::create('dz_lookup_types', function (Blueprint $table) {
             $userTable = ( new User() )->getTable();
 
             $table->increments('id');
@@ -37,6 +37,6 @@ class CreateHmLookupTypesTable extends Migration {
      * @return void
      */
     public function down () {
-        Schema::dropIfExists('hm_lookup_types');
+        Schema::dropIfExists('dz_lookup_types');
     }
 }

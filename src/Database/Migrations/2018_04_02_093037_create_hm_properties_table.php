@@ -12,7 +12,7 @@ class CreateHmPropertiesTable extends Migration {
      * @return void
      */
     public function up () {
-        Schema::create('hm_properties', function (Blueprint $table) {
+        Schema::create('dz_properties', function (Blueprint $table) {
             $userTable = ( new User() )->getTable();
 
             $table->increments('id');
@@ -44,6 +44,6 @@ class CreateHmPropertiesTable extends Migration {
      * @return void
      */
     public function down () {
-        Schema::dropIfExists('hm_properties');
+        Schema::dropIfExists('dz_properties');
     }
 }

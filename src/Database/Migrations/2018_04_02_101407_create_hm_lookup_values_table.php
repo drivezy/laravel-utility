@@ -12,7 +12,7 @@ class CreateHmLookupValuesTable extends Migration {
      * @return void
      */
     public function up () {
-        Schema::create('hm_lookup_values', function (Blueprint $table) {
+        Schema::create('dz_lookup_values', function (Blueprint $table) {
             $userTable = ( new User() )->getTable();
 
             $table->increments('id');
@@ -25,7 +25,7 @@ class CreateHmLookupValuesTable extends Migration {
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
 
-            $table->foreign('lookup_type_id')->references('id')->on('hm_lookup_types');
+            $table->foreign('lookup_type_id')->references('id')->on('dz_lookup_types');
 
             $table->foreign('created_by')->references('id')->on($userTable);
             $table->foreign('updated_by')->references('id')->on($userTable);
@@ -41,6 +41,6 @@ class CreateHmLookupValuesTable extends Migration {
      * @return void
      */
     public function down () {
-        Schema::dropIfExists('hm_lookup_values');
+        Schema::dropIfExists('dz_lookup_values');
     }
 }
