@@ -1,12 +1,12 @@
 <?php
 
-namespace Hemantanshu\LaravelUtility\Observers;
+namespace Drivezy\LaravelUtility\Observers;
 
 use Illuminate\Support\Facades\Cache;
 
 /**
  * Class PropertyObserver
- * @package Hemantanshu\LaravelUtility\Observers
+ * @package Drivezy\LaravelUtility\Observers
  */
 class PropertyObserver extends BaseObserver {
     /**

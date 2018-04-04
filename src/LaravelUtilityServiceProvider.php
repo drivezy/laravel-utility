@@ -1,6 +1,6 @@
 <?php
 
-namespace Hemantanshu\LaravelUtility;
+namespace Drivezy\LaravelUtility;
 
 use Illuminate\Support\ServiceProvider;
 

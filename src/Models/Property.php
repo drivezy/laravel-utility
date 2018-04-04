@@ -1,13 +1,13 @@
 <?php
 
-namespace Hemantanshu\LaravelUtility\Models;
+namespace Drivezy\LaravelUtility\Models;
 
-use Hemantanshu\LaravelUtility\Observers\PropertyObserver;
+use Drivezy\LaravelUtility\Observers\PropertyObserver;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Property
- * @package Hemantanshu\LaravelUtility\Models
+ * @package Drivezy\LaravelUtility\Models
  */
 class Property extends Model {
     /**
