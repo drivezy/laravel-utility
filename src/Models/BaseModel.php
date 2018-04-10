@@ -4,13 +4,14 @@ namespace Drivezy\LaravelUtility\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class BaseModel
  * @package Drivezy\LaravelUtility\Models
  */
 class BaseModel extends Model {
-
+    use SoftDeletes;
     /**
      * @var array
      */

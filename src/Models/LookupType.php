@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class LookupType
  * @package Drivezy\LaravelUtility\Models
  */
-class LookupType extends Model {
+class LookupType extends BaseModel {
     /**
      * @var string
      */

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class Property
  * @package Drivezy\LaravelUtility\Models
  */
-class Property extends Model {
+class Property extends BaseModel {
     /**
      * @var string
      */
