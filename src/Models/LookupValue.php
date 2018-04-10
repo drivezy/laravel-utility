@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class LookupValue
  * @package Drivezy\LaravelUtility\Models
  */
-class LookupValue extends Model {
+class LookupValue extends BaseModel {
     /**
      * @var string
      */
