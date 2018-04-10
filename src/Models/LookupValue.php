@@ -14,7 +14,7 @@ class LookupValue extends Model {
     /**
      * @var string
      */
-    protected $table = 'hm_lookup_values';
+    protected $table = 'dz_lookup_values';
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

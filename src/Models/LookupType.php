@@ -14,7 +14,7 @@ class LookupType extends Model {
     /**
      * @var string
      */
-    protected $table = 'hm_lookup_types';
+    protected $table = 'dz_lookup_types';
 
     /**
      * Load the observer rule against the model

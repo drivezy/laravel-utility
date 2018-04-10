@@ -13,7 +13,7 @@ class Property extends Model {
     /**
      * @var string
      */
-    protected $table = 'hm_properties';
+    protected $table = 'dz_properties';
 
     /**
      * Load the observer rule against the model
