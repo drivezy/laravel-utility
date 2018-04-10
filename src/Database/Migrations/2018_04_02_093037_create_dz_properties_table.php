@@ -5,33 +5,36 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHmLookupValuesTable extends Migration {
+class CreateDzPropertiesTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
     public function up () {
-        Schema::create('dz_lookup_values', function (Blueprint $table) {
+        Schema::create('dz_properties', function (Blueprint $table) {
             $userTable = ( new User() )->getTable();
 
             $table->increments('id');
-            $table->unsignedInteger('lookup_type_id')->nullable();
 
-            $table->string('name');
-            $table->text('value');
+            $table->string('key');
+            $table->string('value');
+
+            $table->boolean('caching_enabled')->default(true);
+            $table->boolean('is_public')->default(false);
+
             $table->string('description')->nullable();
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
-
-            $table->foreign('lookup_type_id')->references('id')->on('dz_lookup_types');
 
             $table->foreign('created_by')->references('id')->on($userTable);
             $table->foreign('updated_by')->references('id')->on($userTable);
 
             $table->timestamps();
             $table->softDeletes();
+
+
         });
     }
 
@@ -41,6 +44,6 @@ class CreateHmLookupValuesTable extends Migration {
      * @return void
      */
     public function down () {
-        Schema::dropIfExists('dz_lookup_values');
+        Schema::dropIfExists('dz_properties');
     }
 }
