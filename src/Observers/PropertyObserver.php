@@ -3,6 +3,7 @@
 namespace Drivezy\LaravelUtility\Observers;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class PropertyObserver
