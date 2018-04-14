@@ -15,5 +15,12 @@
     "psr-4": {
       "Drivezy\\LaravelUtility\\": "src/"
     }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Drivezy\\LaravelUtility\\LaravelUtilityServiceProvider"
+      ]
+    }
   }
 }

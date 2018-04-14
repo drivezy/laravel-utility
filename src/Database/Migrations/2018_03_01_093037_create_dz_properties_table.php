@@ -34,7 +34,7 @@ class CreateDzPropertiesTable extends Migration {
             $table->timestamps();
             $table->softDeletes();
 
-
+            $table->index('key');
         });
     }
 
