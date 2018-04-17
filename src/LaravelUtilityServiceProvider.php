@@ -12,10 +12,6 @@ class LaravelUtilityServiceProvider extends ServiceProvider {
      */
     public function boot () {
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
-
-        $this->publishes([
-            __DIR__ . '/Database/Seeds' => database_path('seeds'),
-        ], 'migrations');
     }
 
     /**

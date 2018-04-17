@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use Drivezy\LaravelUtility\Database\Seeds\LookupBlockSeeder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -33,6 +34,9 @@ class CreateDzLookupValuesTable extends Migration {
             $table->timestamps();
             $table->softDeletes();
         });
+
+        //run the seeder once the table gets populated
+        ( new LookupBlockSeeder() )->run();
     }
 
     /**
