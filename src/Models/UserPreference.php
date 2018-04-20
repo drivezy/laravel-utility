@@ -16,6 +16,21 @@ class UserPreference extends BaseModel {
     protected $table = 'dz_user_preferences';
 
     /**
+     * @param $obj
+     */
+    public function setValueAttribute ($obj) {
+        $this->attributes['value'] = serialize($obj);
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    public function getValueAttribute ($value) {
+        return unserialize($value);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user () {
