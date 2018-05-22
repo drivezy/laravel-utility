@@ -13,6 +13,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BaseModel extends Model {
     use SoftDeletes;
     /**
+     * @var
+     */
+    public static $hide_columns;
+    /**
      * @var array
      */
     protected $guarded = ['created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by'];
@@ -29,5 +33,14 @@ class BaseModel extends Model {
      */
     public function updated_user () {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray () {
+        $this->addHidden(self::$hide_columns);
+
+        return parent::toArray();
     }
 }
