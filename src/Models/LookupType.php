@@ -4,7 +4,6 @@ namespace Drivezy\LaravelUtility\Models;
 
 
 use Drivezy\LaravelUtility\Observers\LookupTypeObserver;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class LookupType

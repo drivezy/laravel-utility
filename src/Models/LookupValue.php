@@ -4,7 +4,6 @@ namespace Drivezy\LaravelUtility\Models;
 
 
 use Drivezy\LaravelUtility\Observers\LookupValueObserver;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class LookupValue

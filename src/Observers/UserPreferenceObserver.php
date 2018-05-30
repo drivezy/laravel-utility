@@ -13,8 +13,4 @@ class UserPreferenceObserver extends BaseObserver {
         'key' => 'required',
     ];
 
-    public function creating (Eloquent $model) {
-        return parent::creating($model);
-    }
-
 }

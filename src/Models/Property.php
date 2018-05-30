@@ -3,7 +3,6 @@
 namespace Drivezy\LaravelUtility\Models;
 
 use Drivezy\LaravelUtility\Observers\PropertyObserver;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Property
