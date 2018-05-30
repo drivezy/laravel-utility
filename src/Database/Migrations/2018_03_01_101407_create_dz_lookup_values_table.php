@@ -1,6 +1,5 @@
 <?php
 
-use App\User;
 use Drivezy\LaravelUtility\Database\Seeds\LookupBlockSeeder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,7 +13,7 @@ class CreateDzLookupValuesTable extends Migration {
      */
     public function up () {
         Schema::create('dz_lookup_values', function (Blueprint $table) {
-            $userTable = ( new User() )->getTable();
+            $userTable = config('utility.user_table');
 
             $table->increments('id');
             $table->unsignedInteger('lookup_type_id')->nullable();

@@ -13,7 +13,7 @@ class CreateDzPropertiesTable extends Migration {
      */
     public function up () {
         Schema::create('dz_properties', function (Blueprint $table) {
-            $userTable = ( new User() )->getTable();
+            $userTable = config('utility.user_table');
 
             $table->increments('id');
 
