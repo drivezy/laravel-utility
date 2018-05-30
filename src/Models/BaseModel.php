@@ -2,7 +2,6 @@
 
 namespace Drivezy\LaravelUtility\Models;
 
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -25,14 +24,14 @@ class BaseModel extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function created_user () {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(config('utility.user_class'), 'created_by');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function updated_user () {
-        return $this->belongsTo(User::class, 'updated_by');
+        return $this->belongsTo(config('utility.user_class'), 'updated_by');
     }
 
     /**
@@ -42,5 +41,12 @@ class BaseModel extends Model {
         $this->addHidden(self::$hide_columns);
 
         return parent::toArray();
+    }
+
+    /**
+     * @param $columns
+     */
+    public static function hideColumn ($columns) {
+        self::$hide_columns = $columns;
     }
 }
