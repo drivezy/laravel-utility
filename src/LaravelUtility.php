@@ -18,6 +18,7 @@ class LaravelUtility {
      * @return bool|string
      */
     public static function getProperty ($property, $default = false) {
+
         $key = 'system-property.' . $property;
 
         //check if the cache has that property saved within
