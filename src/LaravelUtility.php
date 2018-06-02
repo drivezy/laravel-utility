@@ -18,7 +18,6 @@ class LaravelUtility {
      * @return bool|string
      */
     public static function getProperty ($property, $default = false) {
-
         $key = 'system-property.' . $property;
 
         //check if the cache has that property saved within
@@ -39,6 +38,22 @@ class LaravelUtility {
         if ( $default ) return $default;
 
         return false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getUserTable () {
+        $userClass = config('utility.app_namespace') . '\\User';
+
+        return ( new $userClass() )->getTable();
+    }
+
+    /**
+     * @return string
+     */
+    public static function getUserModelFullQualifiedName () {
+        return config('utility.app_namespace') . '\\User';
     }
 
 }

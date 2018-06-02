@@ -2,6 +2,7 @@
 
 namespace Drivezy\LaravelUtility\Models;
 
+use Drivezy\LaravelUtility\LaravelUtility;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -24,21 +25,22 @@ class BaseModel extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function created_user () {
-        return $this->belongsTo(config('utility.user_class'), 'created_by');
+        return $this->belongsTo(LaravelUtility::getUserModelFullQualifiedName(), 'created_by');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function updated_user () {
-        return $this->belongsTo(config('utility.user_class'), 'updated_by');
+        return $this->belongsTo(LaravelUtility::getUserModelFullQualifiedName(), 'updated_by');
     }
 
     /**
      * @return array
      */
     public function toArray () {
-        $this->addHidden(self::$hide_columns);
+        if ( self::$hide_columns )
+            $this->addHidden(self::$hide_columns);
 
         return parent::toArray();
     }

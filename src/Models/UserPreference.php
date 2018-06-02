@@ -2,6 +2,7 @@
 
 namespace Drivezy\LaravelUtility\Models;
 
+use Drivezy\LaravelUtility\LaravelUtility;
 use Drivezy\LaravelUtility\Observers\UserPreferenceObserver;
 
 /**
@@ -33,11 +34,11 @@ class UserPreference extends BaseModel {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user () {
-        return $this->belongsTo(config('utility.user_class'));
+        return $this->belongsTo(LaravelUtility::getUserModelFullQualifiedName());
     }
 
     /**
-     *
+     * Load the observer rule against the model
      */
     public static function boot () {
         parent::boot();
