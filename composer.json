@@ -14,7 +14,10 @@
   "autoload": {
     "psr-4": {
       "Drivezy\\LaravelUtility\\": "src/"
-    }
+    },
+    "files": [
+      "src/Library/helpers.php"
+    ]
   },
   "extra": {
     "laravel": {
