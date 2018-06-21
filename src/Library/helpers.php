@@ -46,9 +46,14 @@ function fixed_response ($response) {
  * @return array
  */
 function success_message ($message) {
-    $logs = CustomLogging::getResponseMessage();
+    $response = ['success' => true, 'response' => $message];
 
-    return ['success' => true, 'response' => $message, $logs];
+    $logs = CustomLogging::getResponseMessage();
+    foreach ( $logs as $key => $value ) {
+        $response[ $key ] = $value;
+    }
+
+    return $response;
 }
 
 /**
