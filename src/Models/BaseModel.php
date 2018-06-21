@@ -13,15 +13,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BaseModel extends Model {
     use SoftDeletes;
     use ModelEvaluator;
-    
-    /**
-     * @var
-     */
-    public static $hide_columns;
+
     /**
      * @var array
      */
     protected $guarded = ['created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by'];
+
+    public static $hide_columns = [];
+    public static $default_hidden_columns = ['created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -41,16 +40,18 @@ class BaseModel extends Model {
      * @return array
      */
     public function toArray () {
-        if ( self::$hide_columns )
-            $this->addHidden(self::$hide_columns);
+        $this->handleHiddenColumns();
 
         return parent::toArray();
     }
 
     /**
-     * @param $columns
+     * check if there is any overriding on the hidden columns against the requested class.
      */
-    public static function hideColumn ($columns) {
-        self::$hide_columns = $columns;
+    private function handleHiddenColumns () {
+        $callingClass = get_called_class();
+
+        if ( isset(self::$hide_columns[ $callingClass ]) )
+            $this->setHidden(self::$hide_columns[ $callingClass ]);
     }
 }
