@@ -2,6 +2,7 @@
 
 namespace Drivezy\LaravelUtility\Observers;
 
+use Drivezy\LaravelRecordManager\Library\BusinessRuleManager;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Facades\Auth;
 
@@ -76,6 +77,10 @@ class BaseObserver {
             return false;
         }
 
+        $model = BusinessRuleManager::handleUpdateRules($model);
+        //find all the rules that are matching the update rule
+        if ( $model->abort ) return false;
+
         if ( Auth::check() )
             $model->updated_by = Auth::id();
 
@@ -85,7 +90,7 @@ class BaseObserver {
      * @param Eloquent $model
      */
     public function updated (Eloquent $model) {
-
+        BusinessRuleManager::handleUpdateRules($model);
     }
 
     /**
@@ -104,6 +109,10 @@ class BaseObserver {
             return false;
         }
 
+        $model = BusinessRuleManager::handleCreatingRules($model);
+        //find all the rules that are matching the update rule
+        if ( $model->abort ) return false;
+
         if ( Auth::check() ) {
             $model->created_by = Auth::id();
             $model->updated_by = Auth::id();
@@ -114,12 +123,17 @@ class BaseObserver {
      * @param Eloquent $model
      */
     public function created (Eloquent $model) {
+        BusinessRuleManager::handleCreatedRules($model);
     }
 
     /**
      * @param Eloquent $model
      */
     public function deleting (Eloquent $model) {
+        $model = BusinessRuleManager::handleDeletingRules($model);
+        //find all the rules that are matching the update rule
+        if ( $model->abort ) return false;
+
         if ( Auth::check() ) {
             $model->updated_by = Auth::id();
         }
@@ -129,7 +143,7 @@ class BaseObserver {
      * @param Eloquent $model
      */
     public function deleted (Eloquent $model) {
-
+        BusinessRuleManager::handleDeletedRules($model);
     }
 
     /**

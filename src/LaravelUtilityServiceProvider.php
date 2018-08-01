@@ -2,6 +2,7 @@
 
 namespace Drivezy\LaravelUtility;
 
+use Drivezy\LaravelUtility\Library\Message;
 use Illuminate\Support\ServiceProvider;
 
 class LaravelUtilityServiceProvider extends ServiceProvider {
@@ -24,5 +25,6 @@ class LaravelUtilityServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register () {
+        $this->app->bind('message', Message::class);
     }
 }
