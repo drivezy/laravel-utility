@@ -1,6 +1,6 @@
 <?php
 
-use Drivezy\LaravelUtility\Library\CustomLogging;
+use Drivezy\LaravelUtility\Library\Message;
 
 /**
  * @return \Illuminate\Http\JsonResponse
@@ -46,14 +46,7 @@ function fixed_response ($response) {
  * @return array
  */
 function success_message ($message) {
-    $response = ['success' => true, 'response' => $message];
-
-    $logs = CustomLogging::getResponseMessage();
-    foreach ( $logs as $key => $value ) {
-        $response[ $key ] = $value;
-    }
-
-    return $response;
+    return array_merge(['success' => true, 'response' => $message], Message::$message);
 }
 
 /**
@@ -61,8 +54,6 @@ function success_message ($message) {
  * @return array
  */
 function failure_message ($message) {
-    $logs = CustomLogging::getResponseMessage();
-
-    return ['success' => false, 'response' => $message, $logs];
+    return array_merge(['success' => false, 'response' => $message], Message::$message);
 }
 

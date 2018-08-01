@@ -14,12 +14,22 @@ class BaseModel extends Model {
     use SoftDeletes;
     use ModelEvaluator;
 
+    public $model_hash = null;
+    protected $abort = false;
+    public $abort_business_rule = false;
+
     /**
      * @var array
      */
     protected $guarded = ['created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by'];
 
+    /**
+     * @var array
+     */
     public static $hide_columns = [];
+    /**
+     * @var array
+     */
     public static $default_hidden_columns = ['created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by'];
 
     /**
@@ -34,24 +44,5 @@ class BaseModel extends Model {
      */
     public function updated_user () {
         return $this->belongsTo(LaravelUtility::getUserModelFullQualifiedName(), 'updated_by');
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray () {
-        $this->handleHiddenColumns();
-
-        return parent::toArray();
-    }
-
-    /**
-     * check if there is any overriding on the hidden columns against the requested class.
-     */
-    private function handleHiddenColumns () {
-        $callingClass = get_called_class();
-
-        if ( isset(self::$hide_columns[ $callingClass ]) )
-            $this->setHidden(self::$hide_columns[ $callingClass ]);
     }
 }
