@@ -14,7 +14,7 @@ class BaseModel extends Model {
     use SoftDeletes;
     use ModelEvaluator;
 
-    public $model_hash = null;
+    public $hash = null;
     protected $abort = false;
     public $abort_business_rule = false;
 
@@ -31,6 +31,16 @@ class BaseModel extends Model {
      * @var array
      */
     public static $default_hidden_columns = ['created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by'];
+
+    /**
+     * BaseModel constructor.
+     * @param array $attributes
+     */
+    public function __construct (array $attributes = []) {
+        $this->hash = md5($this->getActualClassNameForMorph($this->getMorphClass()));
+
+        parent::__construct($attributes);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
