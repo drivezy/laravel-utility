@@ -2,6 +2,7 @@
 
 namespace Drivezy\LaravelUtility\Observers;
 
+use Drivezy\LaravelAccessManager\ImpersonationManager;
 use Drivezy\LaravelRecordManager\Library\BusinessRuleManager;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Facades\Auth;
@@ -82,7 +83,7 @@ class BaseObserver {
         if ( $model->abort ) return false;
 
         if ( Auth::check() )
-            $model->updated_by = Auth::id();
+            $model->updated_by = ImpersonationManager::getActualLoggedUser()->id;
 
     }
 
@@ -114,8 +115,8 @@ class BaseObserver {
         if ( $model->abort ) return false;
 
         if ( Auth::check() ) {
-            $model->created_by = Auth::id();
-            $model->updated_by = Auth::id();
+            $model->created_by = ImpersonationManager::getActualLoggedUser()->id;
+            $model->updated_by = ImpersonationManager::getActualLoggedUser()->id;
         }
     }
 
@@ -135,7 +136,7 @@ class BaseObserver {
         if ( $model->abort ) return false;
 
         if ( Auth::check() ) {
-            $model->updated_by = Auth::id();
+            $model->updated_by = ImpersonationManager::getActualLoggedUser()->id;
         }
     }
 
