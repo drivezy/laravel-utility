@@ -3,6 +3,7 @@
 namespace Drivezy\LaravelUtility\Library;
 
 /**
+ * Custom class to handle all inbound messages
  * Class Message
  * @package Drivezy\LaravelUtility\Library
  */
