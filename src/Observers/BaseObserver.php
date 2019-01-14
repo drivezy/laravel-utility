@@ -6,6 +6,7 @@ use Drivezy\LaravelAccessManager\ImpersonationManager;
 use Drivezy\LaravelRecordManager\Library\BusinessRuleManager;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Facades\Auth;
+use JRApp\Models\Sys\ObserverEvent;
 
 /**
  * Class BaseObserver
@@ -60,6 +61,8 @@ class BaseObserver {
      * @param Eloquent $model
      */
     public function saved (Eloquent $model) {
+        //push this one for audit log
+        $this->saveObserverEvent($model);
     }
 
     /**
@@ -145,6 +148,9 @@ class BaseObserver {
      */
     public function deleted (Eloquent $model) {
         BusinessRuleManager::handleDeletedRules($model);
+
+        //push this one for audit log
+        $this->saveObserverEvent($model);
     }
 
     /**
@@ -157,5 +163,16 @@ class BaseObserver {
      * @param Eloquent $model
      */
     public function restored (Eloquent $model) {
+    }
+
+    /**
+     * @param Eloquent $model
+     */
+    protected function saveObserverEvent (Eloquent $model) {
+        $object = new ObserverEvent();
+        $object->model_id = $model->id;
+        $object->data = $model;
+        $object->model_hash = md5($model->getActualClassNameForMorph($model->getMorphClass()));
+        $object->save();
     }
 }

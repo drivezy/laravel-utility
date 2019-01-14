@@ -28,10 +28,10 @@ class Message {
      * @param $message
      */
     public static function error ($message) {
-        if ( !isset(self::$message['error']) )
-            self::$message['error'] = [];
+        if ( !isset(self::$message['errors']) )
+            self::$message['errors'] = [];
 
-        array_push(self::$message['error'], [
+        array_push(self::$message['errors'], [
             'message' => $message,
         ]);
     }
