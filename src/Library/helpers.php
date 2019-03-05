@@ -51,9 +51,10 @@ function success_message ($message) {
 
 /**
  * @param $message
+ * @param $errorCode
  * @return array
  */
-function failure_message ($message) {
-    return array_merge(['success' => false, 'response' => $message], Message::$message);
+function failure_message ($message, $errorCode = null) {
+    return array_merge(['success' => false, 'response' => $message, 'error_code' => $errorCode], Message::$message);
 }
 
