@@ -2,7 +2,6 @@
 
 namespace Drivezy\LaravelUtility;
 
-use Drivezy\LaravelUtility\Commands\EventQueueProcessorCommand;
 use Drivezy\LaravelUtility\Library\Message;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,13 +17,6 @@ class LaravelUtilityServiceProvider extends ServiceProvider {
         $this->publishes([
             __DIR__ . '/Config/Utility.php' => config_path('utility.php'),
         ]);
-
-        //load command defined in the system
-        if ( $this->app->runningInConsole() ) {
-            $this->commands([
-                EventQueueProcessorCommand::class,
-            ]);
-        }
     }
 
     /**
