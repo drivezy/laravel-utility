@@ -2,6 +2,7 @@
 
 namespace Drivezy\LaravelUtility\Library;
 
+use Drivezy\LaravelUtility\LaravelUtility;
 use GuzzleHttp\Client;
 
 class RemoteRequest {
@@ -99,7 +100,7 @@ class RemoteRequest {
      * @return mixed
      */
     public static function getShortUrl ($url) {
-        $apiKey = 'AIzaSyDfGMwdEYiET2EoRZZXMaAfOu2t7_XeLkw';
+        $apiKey = LaravelUtility::getProperty('google.api.key');
 
         $postData = array('longUrl' => $url);
         $jsonData = json_encode($postData);
