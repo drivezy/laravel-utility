@@ -6,6 +6,7 @@ use Drivezy\LaravelAccessManager\ImpersonationManager;
 use Drivezy\LaravelRecordManager\Library\BusinessRuleManager;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Facades\Auth;
+use JRApp\Jobs\Queue\ObserverEventDirectJob;
 use JRApp\Models\Sys\ObserverEvent;
 
 /**
@@ -169,10 +170,20 @@ class BaseObserver {
      * @param Eloquent $model
      */
     protected function saveObserverEvent (Eloquent $model) {
-        $object = new ObserverEvent();
-        $object->model_id = $model->id;
-        $object->data = $model;
-        $object->model_hash = md5($model->getActualClassNameForMorph($model->getMorphClass()));
-        $object->save();
+        //create object against the observer event
+        $obj = new ObserverEventDirectJob((object) [
+            'model_id'   => $model->id,
+            'data'       => serialize($model),
+            'model_hash' => md5($model->getActualClassNameForMorph($model->getMorphClass())),
+        ]);
+
+        //see if the dispatching fails then run the job serially in the system.
+        //only applicable for those events wherein the request size is extremely big
+        //cannot do for all as this request will take little more time to move ahead
+        try {
+            dispatch($obj);
+        } catch ( \Exception $e ) {
+            ( $obj )->handle();
+        }
     }
 }

@@ -163,4 +163,27 @@ trait ModelEvaluator {
     public function isTrashed () {
         return $this->getAttribute('deleted_at') ? true : false;
     }
+
+    /**
+     * Check if the upcoming record is duplicate or not
+     * @param array $args
+     * @return bool
+     */
+    public function isDuplicateRecord ($args = []) {
+        //get class name
+        $model = $this->getActualClassNameForMorph($this->getMorphClass());
+
+        //create search condition on the model
+        $condition = [];
+        foreach ( $args as $key )
+            $condition[ $key ] = $this->{$key};
+
+        //find any record on the model which matches against it
+        $record = $model->where($condition)->first();
+
+        //if record is found and record doesnt match the parent id then its duplicate
+        if ( $record && $record->id != $this->id ) return true;
+
+        return false;
+    }
 }
