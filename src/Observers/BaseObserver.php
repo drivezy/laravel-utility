@@ -3,6 +3,7 @@
 namespace Drivezy\LaravelUtility\Observers;
 
 use Drivezy\LaravelAccessManager\ImpersonationManager;
+use Drivezy\LaravelRecordManager\Jobs\ObserverEventManagerJob;
 use Drivezy\LaravelRecordManager\Library\BusinessRuleManager;
 use Drivezy\LaravelRecordManager\Models\ObserverEvent;
 use Illuminate\Database\Eloquent\Model as Eloquent;
@@ -167,10 +168,11 @@ class BaseObserver {
 
     /**
      * @param Eloquent $model
+     * @throws \Exception
      */
     protected function saveObserverEvent (Eloquent $model) {
         //create object against the observer event
-        $obj = new ObserverEventDirectJob((object) [
+        $obj = new ObserverEventManagerJob((object) [
             'model_id'   => $model->id,
             'data'       => serialize($model),
             'model_hash' => md5($model->getActualClassNameForMorph($model->getMorphClass())),
