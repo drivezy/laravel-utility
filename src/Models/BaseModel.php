@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BaseModel extends Model {
     use SoftDeletes;
     use ModelEvaluator;
+    use Auditable;
 
     public $hash = null;
     protected $abort = false;
