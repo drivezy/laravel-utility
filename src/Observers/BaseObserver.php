@@ -169,7 +169,21 @@ class BaseObserver {
      * @param Eloquent $model
      */
     protected function saveObserverEvent (Eloquent $model) {
-        //@todo write wrapper to process observer events
+        //create object against the observer event
+        $obj = new ObserverEventDirectJob((object) [
+            'model_id'   => $model->id,
+            'data'       => serialize($model),
+            'model_hash' => md5($model->getActualClassNameForMorph($model->getMorphClass())),
+        ]);
+
+        //see if the dispatching fails then run the job serially in the system.
+        //only applicable for those events wherein the request size is extremely big
+        //cannot do for all as this request will take little more time to move ahead
+        try {
+            dispatch($obj);
+        } catch ( \Exception $e ) {
+            ( $obj )->handle();
+        }
     }
 
     /**
