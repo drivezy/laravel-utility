@@ -170,6 +170,9 @@ trait ModelEvaluator {
      * @return bool
      */
     public function isDuplicateRecord ($args = []) {
+        //put check for empty array
+        if ( !sizeof($args) ) return false;
+
         //get class name
         $model = $this->getActualClassNameForMorph($this->getMorphClass());
 
