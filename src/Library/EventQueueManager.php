@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 
 /**
  * Class EventQueueManager
- * @package JRApp\Libraries\Queue
+ * @package Drivezy\LaravelUtility\Library
  */
 class EventQueueManager extends QueueManager {
 
