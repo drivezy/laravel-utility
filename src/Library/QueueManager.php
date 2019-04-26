@@ -7,12 +7,9 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
-use JRApp\Libraries\Utility\DateUtil;
-use JRApp\Libraries\Utility\Utility;
-
 /**
  * Class QueueManager
- * @package JRApp\Libraries\Queue
+ * @package Drivezy\LaravelUtility\Library
  */
 class QueueManager extends Command {
     /**

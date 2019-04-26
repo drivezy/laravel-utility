@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Class BaseJob
- * @package JRApp\Jobs
+ * @package Drivezy\LaravelUtility\Job
  */
 class BaseJob implements ShouldQueue {
     use InteractsWithQueue, Queueable, SerializesModels;

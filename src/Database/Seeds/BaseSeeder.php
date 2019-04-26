@@ -1,6 +1,6 @@
 <?php
 
-namespace Drivezy\LaravelUtility\src\Database\Seeds;
+namespace Drivezy\LaravelUtility\Database\Seeds;
 
 use Drivezy\LaravelRecordManager\Jobs\ObserverEventManagerJob;
 use Drivezy\LaravelRecordManager\Library\BusinessRuleManager;
