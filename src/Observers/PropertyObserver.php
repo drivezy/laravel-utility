@@ -14,7 +14,7 @@ class PropertyObserver extends BaseObserver {
      * @var array
      */
     protected $rules = [
-        'name'  => 'required',
+        'key'   => 'required',
         'value' => 'required',
     ];
 
