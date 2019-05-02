@@ -13,6 +13,10 @@ class ScheduledJob extends BaseModel {
      * @var string
      */
     protected $table = 'dz_scheduled_jobs';
+    /**
+     * @var array
+     */
+    public $auditDisabled = ['last_scheduled_time'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
