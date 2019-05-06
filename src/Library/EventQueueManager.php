@@ -2,6 +2,7 @@
 
 namespace Drivezy\LaravelUtility\Library;
 
+use Drivezy\LaravelUtility\Models\EventDetail;
 use Drivezy\LaravelUtility\Models\EventQueue;
 use Illuminate\Support\Facades\Cache;
 
@@ -100,7 +101,7 @@ class EventQueueManager extends QueueManager {
      * @return EventQueue
      */
     public static function setEvent ($eventName, $value, $options = []) {
-        $event = EventDetail::where('name', $eventName)->first();
+        $event = EventDetail::where('event_name', $eventName)->first();
 
         $queue = new EventQueue();
 

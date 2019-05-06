@@ -111,4 +111,16 @@ class DateUtil {
             return self::getDateTime(strtotime("now") - $minutes * 60);
         }
     }
+
+    /**
+     * @param $date
+     * @param bool $flag
+     * @return false|string
+     */
+    public static function getDisplayFormat ($date, $flag = false) {
+        if ( $flag )
+            return date('d F Y | h:i A', strtotime($date));
+
+        return date('l, F d, Y h:i A', strtotime($date));
+    }
 }
