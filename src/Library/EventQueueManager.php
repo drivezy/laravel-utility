@@ -43,7 +43,14 @@ class EventQueueManager extends QueueManager {
 
                 //process the event queue
                 $job = $handler->job_name;
+                if ( !class_exists($job) ) {
+                    echo DateUtil::getDateTime() . " : Error event : " . $event->id . ' : ' . $job . PHP_EOL;
+                    continue;
+                }
+
                 dispatch(new $job($event->object_value, $event->id));
+                //broadcast the event
+                echo DateUtil::getDateTime() . " : Processed event queue : " . $event->id . ' : ' . $job . PHP_EOL;
 
                 $this->saveEvent($event);
             }

@@ -16,6 +16,15 @@ class EventQueue extends BaseModel {
     protected $table = 'dz_event_queues';
 
     /**
+     * @var bool
+     */
+    public $observable = false;
+    /**
+     * @var bool
+     */
+    public $auditable = false;
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function event_detail () {
