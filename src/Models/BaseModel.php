@@ -15,7 +15,7 @@ class BaseModel extends Model {
     use ModelEvaluator;
     use Auditable;
 
-    public $hash = null;
+    public $class_hash = null;
     protected $abort = false;
     public $abort_business_rule = false;
 
@@ -38,7 +38,7 @@ class BaseModel extends Model {
      * @param array $attributes
      */
     public function __construct (array $attributes = []) {
-        $this->hash = md5($this->getActualClassNameForMorph($this->getMorphClass()));
+        $this->class_hash = md5($this->getActualClassNameForMorph($this->getMorphClass()));
 
         parent::__construct($attributes);
     }

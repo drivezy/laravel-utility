@@ -2,6 +2,7 @@
 
 namespace Drivezy\LaravelUtility\Library;
 
+use Drivezy\LaravelUtility\Models\EventDetail;
 use Drivezy\LaravelUtility\Models\EventQueue;
 use Illuminate\Support\Facades\Cache;
 
@@ -42,7 +43,14 @@ class EventQueueManager extends QueueManager {
 
                 //process the event queue
                 $job = $handler->job_name;
+                if ( !class_exists($job) ) {
+                    echo DateUtil::getDateTime() . " : Error event : " . $event->id . ' : ' . $job . PHP_EOL;
+                    continue;
+                }
+
                 dispatch(new $job($event->object_value, $event->id));
+                //broadcast the event
+                echo DateUtil::getDateTime() . " : Processed event queue : " . $event->id . ' : ' . $job . PHP_EOL;
 
                 $this->saveEvent($event);
             }
@@ -100,7 +108,7 @@ class EventQueueManager extends QueueManager {
      * @return EventQueue
      */
     public static function setEvent ($eventName, $value, $options = []) {
-        $event = EventDetail::where('name', $eventName)->first();
+        $event = EventDetail::where('event_name', $eventName)->first();
 
         $queue = new EventQueue();
 

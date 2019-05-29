@@ -16,6 +16,11 @@ trait Auditable {
     public $auditable = true;
 
     /**
+     * @var bool
+     */
+    public $observable = true;
+
+    /**
      * if defined, only these columns would be allowed for audit
      * @var array
      */

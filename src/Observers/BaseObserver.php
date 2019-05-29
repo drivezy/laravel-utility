@@ -5,7 +5,6 @@ namespace Drivezy\LaravelUtility\Observers;
 use Drivezy\LaravelAccessManager\ImpersonationManager;
 use Drivezy\LaravelRecordManager\Jobs\ObserverEventManagerJob;
 use Drivezy\LaravelRecordManager\Library\BusinessRuleManager;
-use Drivezy\LaravelRecordManager\Models\ObserverEvent;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Facades\Auth;
 
@@ -172,11 +171,7 @@ class BaseObserver {
      */
     protected function saveObserverEvent (Eloquent $model) {
         //create object against the observer event
-        $obj = new ObserverEventManagerJob((object) [
-            'model_id'   => $model->id,
-            'data'       => serialize($model),
-            'model_hash' => md5($model->getActualClassNameForMorph($model->getMorphClass())),
-        ]);
+        $obj = new ObserverEventManagerJob($model);
 
         //see if the dispatching fails then run the job serially in the system.
         //only applicable for those events wherein the request size is extremely big

@@ -13,13 +13,8 @@ class LaravelUtilityServiceProvider extends ServiceProvider {
      * @return void
      */
     public function boot () {
-        //load routes defined out here
-        $this->loadRoutesFrom(__DIR__ . '/routes.php');
-
-        //load migration file
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
 
-        //load the utility configuration
         $this->publishes([
             __DIR__ . '/Config/Utility.php' => config_path('utility.php'),
         ]);
