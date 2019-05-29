@@ -4,8 +4,6 @@ namespace Drivezy\LaravelUtility\Job;
 
 use Drivezy\LaravelUtility\LaravelUtility;
 use Drivezy\LaravelUtility\Library\DateUtil;
-use Drivezy\LaravelUtility\Models\EventQueue;
-use Drivezy\LaravelUtility\Models\EventTrigger;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -14,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Class BaseJob
- * @package Drivezy\LaravelUtility\Job
+ * @package JRApp\Jobs
  */
 class BaseJob implements ShouldQueue {
     use InteractsWithQueue, Queueable, SerializesModels;
