@@ -2,6 +2,10 @@
 
 namespace Drivezy\LaravelUtility\Library;
 
+/**
+ * Class DateUtil
+ * @package Drivezy\LaravelUtility\Library
+ */
 class DateUtil {
     /**
      * @param $sDate
@@ -119,8 +123,34 @@ class DateUtil {
      */
     public static function getDisplayFormat ($date, $flag = false) {
         if ( $flag )
-            return date('d F Y | h:i A', strtotime($date));
+            return date('F d Y | h:i A', strtotime($date));
 
-        return date('l, F d, Y h:i A', strtotime($date));
+        return date('F, l, d, Y h:i A', strtotime($date));
+    }
+
+    /**
+     * @param $dob
+     * @param $minimumAge
+     * @return bool
+     */
+    public static function checkAgeEligibility ($dob, $minimumAge) {
+        return date($dob) <= date('Y-m-d', strtotime('-' . $minimumAge . ' years'));
+    }
+
+    /*
+     * @param $dateTime
+     * @return false|string
+     */
+    public static function getTimeZone ($dateTime) {
+        $utc_date = \DateTime::createFromFormat(
+            'Y-m-d H:i:s',
+            $dateTime,
+            new \DateTimeZone('UTC')
+        );
+
+        $acst_date = clone $utc_date;
+        $acst_date->setTimeZone(new \DateTimeZone('America/Los_Angeles'));
+
+        return $acst_date->format('Y-m-d H:i:s');
     }
 }
