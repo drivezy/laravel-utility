@@ -17,4 +17,5 @@ return [
     */
 
     'app_namespace' => 'App',
+    's3_bucket'     => 'drivezy-s3-bucket',
 ];
