@@ -1,6 +1,7 @@
 <?php
 
 use Drivezy\LaravelUtility\Library\Message;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 /**
  * @return \Illuminate\Http\JsonResponse
@@ -76,4 +77,28 @@ function required_parameter_check ($request, $requiredKeys) {
         return failure_message(implode(',', $missingParams) . ' missing from params');
 
     return success_message(true);
+}
+
+/**
+ * @param $__php
+ * @param $__data
+ * @return string
+ * @throws Exception
+ * @throws FatalThrowableError
+ */
+function render ($__php, $__data) {
+    $obLevel = ob_get_level();
+    ob_start();
+    extract($__data, EXTR_SKIP);
+    try {
+        eval('?' . '>' . $__php);
+    } catch ( Exception $e ) {
+        while ( ob_get_level() > $obLevel ) ob_end_clean();
+        throw $e;
+    } catch ( Throwable $e ) {
+        while ( ob_get_level() > $obLevel ) ob_end_clean();
+        throw new FatalThrowableError($e);
+    }
+
+    return ob_get_clean();
 }

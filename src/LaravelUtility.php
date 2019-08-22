@@ -4,6 +4,7 @@ namespace Drivezy\LaravelUtility;
 
 use Drivezy\LaravelUtility\Models\Property;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -114,5 +115,18 @@ class LaravelUtility {
         }
 
         return $strReturnString;
+    }
+
+    /**
+     * parse the string and process it as the blade component
+     * @param $string
+     * @param $object
+     * @return string
+     * @throws \Symfony\Component\Debug\Exception\FatalThrowableError
+     */
+    public static function parseBladeToString ($string, $object) {
+        $php = Blade::compileString($string);
+
+        return render($php, ['data' => $object]);
     }
 }
