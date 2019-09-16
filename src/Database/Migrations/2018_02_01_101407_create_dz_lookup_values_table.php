@@ -16,15 +16,15 @@ class CreateDzLookupValuesTable extends Migration {
         Schema::create('dz_lookup_values', function (Blueprint $table) {
             $userTable = LaravelUtility::getUserTable();
 
-            $table->increments('id');
-            $table->unsignedInteger('lookup_type_id')->nullable();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('lookup_type_id')->nullable();
 
             $table->string('name');
             $table->text('value');
             $table->string('description')->nullable();
 
-            $table->unsignedInteger('created_by')->nullable();
-            $table->unsignedInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
 
             $table->foreign('lookup_type_id')->references('id')->on('dz_lookup_types');
 

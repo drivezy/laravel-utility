@@ -15,8 +15,8 @@ class CreateDzEventQueuesTable extends Migration {
         Schema::create('dz_event_queues', function (Blueprint $table) {
             $userTable = LaravelUtility::getUserTable();
 
-            $table->increments('id');
-            $table->unsignedInteger('event_id')->nullable();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('event_id')->nullable();
 
             $table->string('event_name');
             $table->text('object_value')->nullable();
@@ -27,13 +27,13 @@ class CreateDzEventQueuesTable extends Migration {
             $table->dateTime('scheduled_start_time')->nullable();
 
             $table->string('source_type')->nullable();
-            $table->unsignedInteger('source_id')->nullable();
+            $table->unsignedBigInteger('source_id')->nullable();
 
             $table->string('target_type')->nullable();
-            $table->unsignedInteger('target_id')->nullable();
+            $table->unsignedBigInteger('target_id')->nullable();
 
-            $table->unsignedInteger('created_by')->nullable();
-            $table->unsignedInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
 
             $table->foreign('created_by')->references('id')->on($userTable);
             $table->foreign('updated_by')->references('id')->on($userTable);
