@@ -4,7 +4,7 @@ namespace Drivezy\LaravelUtility\Database\Seeds;
 
 use Drivezy\LaravelUtility\Models\LookupType;
 use Drivezy\LaravelUtility\Models\LookupValue;
-use Drivezy\LaravelUtility\src\Database\Seeds\BaseSeeder;
+use Drivezy\LaravelUtility\Database\Seeds\BaseSeeder;
 
 /**
  * Class LookupBlockSeeder

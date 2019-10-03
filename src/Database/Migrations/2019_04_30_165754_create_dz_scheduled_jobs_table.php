@@ -15,11 +15,11 @@ class CreateDzScheduledJobsTable extends Migration {
         Schema::create('dz_scheduled_jobs', function (Blueprint $table) {
             $userTable = LaravelUtility::getUserTable();
 
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('name');
             $table->string('description')->nullable();
 
-            $table->unsignedInteger('event_id')->nullable();
+            $table->unsignedBigInteger('event_id')->nullable();
 
             $table->string('parameter')->nullable();
             $table->string('timing')->nullable();
@@ -30,8 +30,8 @@ class CreateDzScheduledJobsTable extends Migration {
 
             $table->boolean('active')->default(true);
 
-            $table->unsignedInteger('created_by')->nullable();
-            $table->unsignedInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
 
             $table->foreign('event_id')->references('id')->on('dz_event_details');
 
