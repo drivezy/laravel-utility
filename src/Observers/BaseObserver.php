@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Auth;
  * Class BaseObserver
  * @package Drivezy\LaravelUtility\Observers
  */
-class BaseObserver {
+class BaseObserver
+{
     /**
      * @var array
      */
@@ -33,7 +34,8 @@ class BaseObserver {
     /**
      * BaseObserver constructor.
      */
-    public function __construct () {
+    public function __construct ()
+    {
 
     }
 
@@ -41,7 +43,8 @@ class BaseObserver {
      * @param Eloquent $model
      * @return bool
      */
-    public function saving (Eloquent $model) {
+    public function saving (Eloquent $model)
+    {
         if ( isset($model->id) )
             $rules = sizeof($this->updateRules) ? $this->updateRules : $this->rules;
         else
@@ -60,7 +63,8 @@ class BaseObserver {
     /**
      * @param Eloquent $model
      */
-    public function saved (Eloquent $model) {
+    public function saved (Eloquent $model)
+    {
         //push this one for audit log
         $this->saveObserverEvent($model);
     }
@@ -69,7 +73,8 @@ class BaseObserver {
      * @param Eloquent $model
      * @return bool
      */
-    public function updating (Eloquent $model) {
+    public function updating (Eloquent $model)
+    {
         $rules = sizeof($this->updateRules) ? $this->updateRules : $this->rules;
 
         $this->validator = \Validator::make([], $rules);
@@ -93,7 +98,8 @@ class BaseObserver {
     /**
      * @param Eloquent $model
      */
-    public function updated (Eloquent $model) {
+    public function updated (Eloquent $model)
+    {
         BusinessRuleManager::handleUpdateRules($model);
     }
 
@@ -101,7 +107,8 @@ class BaseObserver {
      * @param Eloquent $model
      * @return bool
      */
-    public function creating (Eloquent $model) {
+    public function creating (Eloquent $model)
+    {
         $rules = sizeof($this->createRules) ? $this->createRules : $this->rules;
 
         $this->validator = \Validator::make([], $rules);
@@ -126,14 +133,16 @@ class BaseObserver {
     /**
      * @param Eloquent $model
      */
-    public function created (Eloquent $model) {
+    public function created (Eloquent $model)
+    {
         BusinessRuleManager::handleCreatedRules($model);
     }
 
     /**
      * @param Eloquent $model
      */
-    public function deleting (Eloquent $model) {
+    public function deleting (Eloquent $model)
+    {
         $model = BusinessRuleManager::handleDeletingRules($model);
         //find all the rules that are matching the update rule
         if ( $model->abort ) return false;
@@ -146,7 +155,8 @@ class BaseObserver {
     /**
      * @param Eloquent $model
      */
-    public function deleted (Eloquent $model) {
+    public function deleted (Eloquent $model)
+    {
         BusinessRuleManager::handleDeletedRules($model);
 
         //push this one for audit log
@@ -156,20 +166,23 @@ class BaseObserver {
     /**
      * @param Eloquent $model
      */
-    public function restoring (Eloquent $model) {
+    public function restoring (Eloquent $model)
+    {
     }
 
     /**
      * @param Eloquent $model
      */
-    public function restored (Eloquent $model) {
+    public function restored (Eloquent $model)
+    {
     }
 
     /**
      * @param Eloquent $model
      * @throws \Exception
      */
-    protected function saveObserverEvent (Eloquent $model) {
+    protected function saveObserverEvent (Eloquent $model)
+    {
         //create object against the observer event
         $obj = new ObserverEventManagerJob($model);
 
@@ -188,7 +201,8 @@ class BaseObserver {
      * @param $attribute
      * @return bool
      */
-    protected function hasAttributeChanged (Eloquent $model, $attribute) {
+    protected function hasAttributeChanged (Eloquent $model, $attribute)
+    {
         if ( !$model->id ) return true;
 
         if ( $model->getOriginal($attribute) !== $model->getAttribute($attribute) )

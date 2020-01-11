@@ -5,14 +5,16 @@ namespace Drivezy\LaravelUtility\Library;
 use Drivezy\LaravelUtility\LaravelUtility;
 use GuzzleHttp\Client;
 
-class RemoteRequest {
+class RemoteRequest
+{
     /**
      * @param $url
      * @param array $headers
      * @param null $key
      * @return string
      */
-    public static function getRequest ($url, $headers = [], $key = null) {
+    public static function getRequest ($url, $headers = [], $key = null)
+    {
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -34,7 +36,8 @@ class RemoteRequest {
      * @param array $header
      * @return array|string
      */
-    public static function postRequest ($url, $params, $key = null, $header = []) {
+    public static function postRequest ($url, $params, $key = null, $header = [])
+    {
         $ch = curl_init();
         curl_setopt_array($ch, array(
                 CURLOPT_URL            => $url,
@@ -69,8 +72,11 @@ class RemoteRequest {
      * @return array|\Psr\Http\Message\StreamInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function multipartPostRequest ($url, $content, $path, $headers = []) {
-        $client = new Client();
+    public static function multipartPostRequest ($url, $content, $path, $headers = [])
+    {
+        $url = parse_url($url);
+
+        $client = new Client(['base_uri' => $url['scheme'] . '://' . $url['host']]);
         $data = [];
 
         if ( $content )
@@ -85,7 +91,7 @@ class RemoteRequest {
                 'contents' => fopen($path, 'r'),
             ]);
 
-        $response = $client->request('POST', $url, [
+        $response = $client->request('POST', $url['path'], [
             'multipart' => $data,
             'headers'   => $headers,
         ]);
@@ -99,7 +105,8 @@ class RemoteRequest {
      * @param $url
      * @return mixed
      */
-    public static function getShortUrl ($url) {
+    public static function getShortUrl ($url)
+    {
         $apiKey = LaravelUtility::getProperty('google.api.key');
 
         $postData = array('longUrl' => $url);
@@ -135,8 +142,11 @@ class RemoteRequest {
      * @return \Psr\Http\Message\StreamInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function pushJsonRequest ($url, $params, $method = 'POST', $header = null) {
-        $client = new Client();
+    public static function pushJsonRequest ($url, $params, $method = 'POST', $header = null)
+    {
+        $url = parse_url($url);
+
+        $client = new Client(['base_uri' => $url['scheme'] . '://' . $url['host']]);
         $headers = ['Content-Type' => 'application/json',];
 
         if ( $header )
@@ -144,7 +154,7 @@ class RemoteRequest {
                 $headers[ $key ] = $value;
             }
 
-        $response = $client->request($method, $url, [
+        $response = $client->request($method, $url['path'], [
             'headers' => $headers,
             'json'    => $params,
         ]);
@@ -162,9 +172,12 @@ class RemoteRequest {
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function getJson ($url, $headers, $query) {
-        $client = new Client();
-        $response = $client->request('GET', $url, [
+    public static function getJson ($url, $headers, $query)
+    {
+        $url = parse_url($url);
+
+        $client = new Client(['base_uri' => $url['scheme'] . '://' . $url['host']]);
+        $response = $client->request('GET', $url['path'], [
             'headers' => $headers,
             'query'   => $query,
         ]);

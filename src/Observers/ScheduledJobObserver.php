@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  * Class ScheduledJobObserver
  * @package Drivezy\LaravelUtility\Observers
  */
-class ScheduledJobObserver extends BaseObserver {
+class ScheduledJobObserver extends BaseObserver
+{
     /**
      * @var array
      */
@@ -23,11 +24,12 @@ class ScheduledJobObserver extends BaseObserver {
     /**
      * @param Eloquent $model
      */
-    public function saved (Eloquent $model) {
+    public function saved (Eloquent $model)
+    {
         parent::saved($model);
 
         if ( !$model->active )
-            $this->dropScheduledJobs();
+            $this->dropScheduledJobs($model);
         else
             dispatch(new ScheduledJobManagerJob($model->id));
     }
@@ -35,7 +37,8 @@ class ScheduledJobObserver extends BaseObserver {
     /**
      * @param Eloquent $model
      */
-    public function deleted (Eloquent $model) {
+    public function deleted (Eloquent $model)
+    {
         parent::deleted($model);
         $this->dropScheduledJobs();
     }
@@ -43,7 +46,8 @@ class ScheduledJobObserver extends BaseObserver {
     /**
      * @param $model
      */
-    private function dropScheduledJobs ($model) {
+    private function dropScheduledJobs ($model)
+    {
         EventQueue::where('source_type', md5(ScheduledJob::class))->where('source_id', $model->id)->delete();
     }
 }

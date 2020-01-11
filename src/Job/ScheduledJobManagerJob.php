@@ -11,7 +11,8 @@ use Drivezy\LaravelUtility\Models\ScheduledJob;
  * Class ScheduledJobManagerJob
  * @package Drivezy\LaravelUtility\Job
  */
-class ScheduledJobManagerJob extends BaseJob {
+class ScheduledJobManagerJob extends BaseJob
+{
     public $source_class = null;
 
     /**
@@ -19,21 +20,27 @@ class ScheduledJobManagerJob extends BaseJob {
      * @param $id
      * @param null $eventId
      */
-    public function __construct ($id, $eventId = null) {
+    public function __construct ($id, $eventId = null)
+    {
         parent::__construct($id, $eventId);
     }
 
     /**
      * @return bool|void
      */
-    public function handle () {
+    public function handle ()
+    {
         parent::handle();
 
         $this->source_class = md5(ScheduledJob::class);
 
         //process the particular scheduled job
-        if ( $this->id != 0 )
-            return $this->handleJob(ScheduledJob::find($this->id));
+        if ( $this->id != 0 ) {
+            $job = ScheduledJob::find($this->id);
+            if ( $job )
+                return $this->handleJob($job);
+        }
+
 
         //process all jobs as particular option to hit is not processed
         $jobs = ScheduledJob::where('active', true)->get();
@@ -45,7 +52,11 @@ class ScheduledJobManagerJob extends BaseJob {
     /**
      * @param ScheduledJob $job
      */
-    private function handleJob (ScheduledJob $job) {
+    private function handleJob (ScheduledJob $job)
+    {
+        //check if the given event exists against the given job
+        if ( !$job->event ) return;
+
         //get the count of events already registered which are active
         $inQueue = EventQueue::active()->where('source_type', '=', $this->source_class)->where('source_id', $job->id)->count();
         if ( $inQueue > 6 ) return;

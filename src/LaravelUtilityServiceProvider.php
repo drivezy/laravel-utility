@@ -25,6 +25,9 @@ class LaravelUtilityServiceProvider extends ServiceProvider {
                 EventQueueProcessorCommand::class,
             ]);
         }
+
+        //load routes defined out here
+        $this->loadRoutesFrom(__DIR__ . '/routes.php');
     }
 
     /**
