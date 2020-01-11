@@ -9,7 +9,8 @@ use Illuminate\Console\Command;
  * Class CodeGeneratorCommand
  * @package Drivezy\LaravelRecordManager\Console
  */
-class EventQueueProcessorCommand extends Command {
+class EventQueueProcessorCommand extends Command
+{
 
     /**
      * @var
@@ -47,7 +48,8 @@ class EventQueueProcessorCommand extends Command {
      *
      * @return void
      */
-    public function __construct () {
+    public function __construct ()
+    {
         parent::__construct();
     }
 
@@ -56,7 +58,8 @@ class EventQueueProcessorCommand extends Command {
      *
      * @return mixed
      */
-    public function handle () {
+    public function handle ()
+    {
         ( new EventQueueManager() )->processQueue();
     }
 }

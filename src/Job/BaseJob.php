@@ -4,6 +4,8 @@ namespace Drivezy\LaravelUtility\Job;
 
 use Drivezy\LaravelUtility\LaravelUtility;
 use Drivezy\LaravelUtility\Library\DateUtil;
+use Drivezy\LaravelUtility\Models\EventQueue;
+use Drivezy\LaravelUtility\Models\EventTrigger;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -14,7 +16,8 @@ use Illuminate\Support\Facades\Auth;
  * Class BaseJob
  * @package JRApp\Jobs
  */
-class BaseJob implements ShouldQueue {
+class BaseJob implements ShouldQueue
+{
     use InteractsWithQueue, Queueable, SerializesModels;
 
     /**
@@ -49,7 +52,8 @@ class BaseJob implements ShouldQueue {
      * @param $id
      * @param null $eventId
      */
-    public function __construct ($id, $eventId = null) {
+    public function __construct ($id = null, $eventId = null)
+    {
         $this->id = $id;
         $this->eventId = $eventId;
     }
@@ -57,7 +61,8 @@ class BaseJob implements ShouldQueue {
     /**
      * @return bool
      */
-    public function handle () {
+    public function handle ()
+    {
         if ( !Auth::check() ) Auth::loginUsingId(3);
 
         $callingClass = debug_backtrace()[1]['class'];
@@ -74,7 +79,8 @@ class BaseJob implements ShouldQueue {
      * @param $job
      * @param $comments
      */
-    public function reportIssue ($job, $comments) {
+    public function reportIssue ($job, $comments)
+    {
         if ( !$this->event ) return;
     }
 
@@ -82,7 +88,8 @@ class BaseJob implements ShouldQueue {
      * Set up a new job trigger against the event
      * @param $identifier
      */
-    private function setTrigger ($identifier) {
+    private function setTrigger ($identifier)
+    {
         $this->details = new EventTrigger();
 
         $this->details->event_queue_id = $this->eventId;
@@ -95,7 +102,8 @@ class BaseJob implements ShouldQueue {
     /**
      * @param null $exception
      */
-    public function fail ($exception = null) {
+    public function fail ($exception = null)
+    {
 
     }
 
@@ -104,7 +112,8 @@ class BaseJob implements ShouldQueue {
      * @param $str
      * @return bool
      */
-    protected function info ($str) {
+    protected function info ($str)
+    {
         if ( !$this->details ) return false;
 
         if ( !$this->logFile ) $this->createFilePointer();
@@ -115,7 +124,8 @@ class BaseJob implements ShouldQueue {
     /**
      * Create a file pointer which is to be used for logging purpose
      */
-    private function createFilePointer () {
+    private function createFilePointer ()
+    {
         //create a pointer for file writing
         $this->logFile = $this->details->id . '-jobs-' . strtotime('now') . '.txt';
         $this->fp = fopen(storage_path() . '/logs/' . $this->logFile, 'w');
@@ -124,7 +134,8 @@ class BaseJob implements ShouldQueue {
     /**
      * This would wrap up the activity done for the given job file
      */
-    public function __destruct () {
+    public function __destruct ()
+    {
         if ( !$this->details ) return;
 
         $this->details->end_time = DateUtil::getDateTime();

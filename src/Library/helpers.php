@@ -1,19 +1,22 @@
 <?php
 
 use Drivezy\LaravelUtility\Library\Message;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 /**
  * @return \Illuminate\Http\JsonResponse
  */
-function invalid_operation () {
+function invalid_operation ()
+{
     return Response::json(insufficient_permission());
 }
 
 /**
  * @return mixed
  */
-function unsupported_operation () {
+function unsupported_operation ()
+{
     return Response::json(['success' => false, 'response' => 'This operation is not supported']);
 }
 
@@ -22,7 +25,8 @@ function unsupported_operation () {
  * @param null $errorCode
  * @return \Illuminate\Http\JsonResponse
  */
-function failed_response ($message, $errorCode = null) {
+function failed_response ($message, $errorCode = null)
+{
     return Response::json(['success' => false, 'response' => $message, 'error_code' => $errorCode]);
 }
 
@@ -30,7 +34,8 @@ function failed_response ($message, $errorCode = null) {
  * @param $message
  * @return \Illuminate\Http\JsonResponse
  */
-function success_response ($message) {
+function success_response ($message)
+{
     return Response::json(success_message($message));
 }
 
@@ -38,7 +43,8 @@ function success_response ($message) {
  * @param $response
  * @return mixed
  */
-function fixed_response ($response) {
+function fixed_response ($response)
+{
     return Response::json($response);
 }
 
@@ -46,7 +52,8 @@ function fixed_response ($response) {
  * @param $message
  * @return array
  */
-function success_message ($message) {
+function success_message ($message)
+{
     return array_merge(['success' => true, 'response' => $message], Message::$message);
 }
 
@@ -55,14 +62,16 @@ function success_message ($message) {
  * @param $errorCode
  * @return array
  */
-function failure_message ($message, $errorCode = null) {
+function failure_message ($message, $errorCode = null)
+{
     return array_merge(['success' => false, 'response' => $message, 'error_code' => $errorCode], Message::$message);
 }
 
 /**
  * @return array
  */
-function insufficient_permission () {
+function insufficient_permission ()
+{
     return array_merge(['success' => false, 'permission' => false, 'response' => 'Oops! You do not have sufficient permission. Please contact admin'], Message::$message);
 }
 
@@ -71,7 +80,8 @@ function insufficient_permission () {
  * @param $requiredKeys array of required parameters.
  * @return array success/failure message.
  */
-function required_parameter_check ($request, $requiredKeys) {
+function required_parameter_check ($request, $requiredKeys)
+{
     $missingParams = array_diff($requiredKeys, array_keys($request));
     if ( count($missingParams) )
         return failure_message(implode(',', $missingParams) . ' missing from params');
@@ -86,7 +96,8 @@ function required_parameter_check ($request, $requiredKeys) {
  * @throws Exception
  * @throws FatalThrowableError
  */
-function render ($__php, $__data) {
+function render ($__php, $__data)
+{
     $obLevel = ob_get_level();
     ob_start();
     extract($__data, EXTR_SKIP);
@@ -101,4 +112,14 @@ function render ($__php, $__data) {
     }
 
     return ob_get_clean();
+}
+
+/**
+ * return the set of db results from the query
+ * @param $query
+ * @return array
+ */
+function sql ($query)
+{
+    return DB::select(DB::raw($query));
 }

@@ -4,12 +4,15 @@ namespace Drivezy\LaravelUtility\Models;
 
 use Drivezy\LaravelUtility\Library\DateUtil;
 use Drivezy\LaravelUtility\Observers\EventQueueObserver;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class LookupValue
  * @package Drivezy\LaravelUtility\Models
  */
-class EventQueue extends BaseModel {
+class EventQueue extends BaseModel
+{
     /**
      * @var string
      */
@@ -25,17 +28,19 @@ class EventQueue extends BaseModel {
     public $auditable = false;
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function event_detail () {
-        return $this->belongsTo(EventDetail::class, 'event_name', 'event_name');
+    public function event_detail ()
+    {
+        return $this->belongsTo(EventDetail::class, 'event_id');
     }
 
     /**
      * @param $query
      * @return mixed
      */
-    public function scopeActive ($query) {
+    public function scopeActive ($query)
+    {
         return $query->whereNull('start_time');
     }
 
@@ -43,7 +48,8 @@ class EventQueue extends BaseModel {
      * @param $query
      * @return mixed
      */
-    public function scopePending ($query) {
+    public function scopePending ($query)
+    {
         return $query->whereNull('start_time')->where('scheduled_start_time', '<=', DateUtil::getDateTime());
     }
 
@@ -51,21 +57,24 @@ class EventQueue extends BaseModel {
      * @param $query
      * @return mixed
      */
-    public function scopeCompleted ($query) {
+    public function scopeCompleted ($query)
+    {
         return $query->whereNotNull('start_time')->whereNotNull('end_time');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function triggers () {
+    public function triggers ()
+    {
         return $this->hasMany(EventTrigger::class, 'event_queue_id');
     }
 
     /**
      * Load the observer rule against the model
      */
-    public static function boot () {
+    public static function boot ()
+    {
         parent::boot();
         self::observe(new EventQueueObserver());
     }
