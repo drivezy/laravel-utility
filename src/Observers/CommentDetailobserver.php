@@ -3,9 +3,10 @@
 namespace Drivezy\LaravelUtility\Observers;
 
 /**
- * Class CommentDetailobserver
+ * Class CommentDetailObserver
  * @package Drivezy\LaravelUtility\Observers
  */
-class CommentDetailobserver extends BaseObserver {
+class CommentDetailObserver extends BaseObserver
+{
 
 }

@@ -5,8 +5,11 @@ namespace Drivezy\LaravelUtility\Observers;
 use Drivezy\LaravelAccessManager\ImpersonationManager;
 use Drivezy\LaravelRecordManager\Jobs\ObserverEventManagerJob;
 use Drivezy\LaravelRecordManager\Library\BusinessRuleManager;
+use Exception;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Facades\Auth;
+use Drivezy\LaravelRecordManager\Observers\DynamoEloquentObserverTrait as DynamoObserverTrait;
+use Validator;
 
 /**
  * Class BaseObserver
@@ -14,6 +17,8 @@ use Illuminate\Support\Facades\Auth;
  */
 class BaseObserver
 {
+    use DynamoObserverTrait;
+
     /**
      * @var array
      */
@@ -41,6 +46,25 @@ class BaseObserver
 
     /**
      * @param Eloquent $model
+     * @return Eloquent
+     */
+    public function retrieved (Eloquent $model)
+    {
+        //check if dynamo trait is applicable or else return back
+        if ( !isset($model->prefetch_dynamo_columns) ) return $model;
+
+        //check if there are any columns that are to be pre fetched from the db
+        if ( !$model->prefetch_dynamo_columns ) return $model;
+
+        $data = $model->getDynamoAttributes();
+        foreach ($data  as $key => $value )
+            $model->{$key} = $value;
+
+        return $model;
+    }
+
+    /**
+     * @param Eloquent $model
      * @return bool
      */
     public function saving (Eloquent $model)
@@ -50,7 +74,7 @@ class BaseObserver
         else
             $rules = sizeof($this->createRules) ? $this->createRules : $this->rules;
 
-        $this->validator = \Validator::make([], $rules);
+        $this->validator = Validator::make([], $rules);
         $this->validator->setData($model->getAttributes());
 
         if ( $this->validator->fails() ) {
@@ -58,15 +82,23 @@ class BaseObserver
 
             return false;
         }
+
+        //check for columns that are marked as dynamo db element
+        //segregate them and push them to the dynamo columns attribute
+        $this->preSaving($model);
     }
 
     /**
      * @param Eloquent $model
+     * @throws Exception
      */
     public function saved (Eloquent $model)
     {
         //push this one for audit log
         $this->saveObserverEvent($model);
+
+        //set the dynamo columns back to the dynamo db
+        $this->postSaved($model);
     }
 
     /**
@@ -77,7 +109,7 @@ class BaseObserver
     {
         $rules = sizeof($this->updateRules) ? $this->updateRules : $this->rules;
 
-        $this->validator = \Validator::make([], $rules);
+        $this->validator = Validator::make([], $rules);
         $this->validator->setData($model->getAttributes());
 
         if ( $this->validator->fails() ) {
@@ -111,7 +143,7 @@ class BaseObserver
     {
         $rules = sizeof($this->createRules) ? $this->createRules : $this->rules;
 
-        $this->validator = \Validator::make([], $rules);
+        $this->validator = Validator::make([], $rules);
         $this->validator->setData($model->getAttributes());
 
         if ( $this->validator->fails() ) {
@@ -140,6 +172,7 @@ class BaseObserver
 
     /**
      * @param Eloquent $model
+     * @return bool
      */
     public function deleting (Eloquent $model)
     {
@@ -154,6 +187,7 @@ class BaseObserver
 
     /**
      * @param Eloquent $model
+     * @throws Exception
      */
     public function deleted (Eloquent $model)
     {
@@ -179,7 +213,7 @@ class BaseObserver
 
     /**
      * @param Eloquent $model
-     * @throws \Exception
+     * @throws Exception
      */
     protected function saveObserverEvent (Eloquent $model)
     {
@@ -191,7 +225,7 @@ class BaseObserver
         //cannot do for all as this request will take little more time to move ahead
         try {
             dispatch($obj);
-        } catch ( \Exception $e ) {
+        } catch ( Exception $e ) {
             ( $obj )->handle();
         }
     }

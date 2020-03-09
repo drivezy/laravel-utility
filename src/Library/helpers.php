@@ -27,7 +27,7 @@ function unsupported_operation ()
  */
 function failed_response ($message, $errorCode = null)
 {
-    return Response::json(['success' => false, 'response' => $message, 'error_code' => $errorCode]);
+    return Response::json(failure_message($message, $errorCode));
 }
 
 /**
