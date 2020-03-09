@@ -8,14 +8,16 @@ namespace Drivezy\LaravelUtility\Models;
  * Trait ModelEvaluator
  * @package Drivezy\LaravelUtility\Models
  */
-trait ModelEvaluatorTrait {
+trait ModelEvaluatorTrait
+{
 
     /**
      * Check if the column has changed its value
      * @param $column
      * @return bool
      */
-    public function hasChanged ($column) {
+    public function hasChanged ($column)
+    {
         if ( $this->isNewRecord() ) return true;
         if ( $this->getOriginal($column) != $this->getAttribute($column) ) return true;
 
@@ -23,13 +25,12 @@ trait ModelEvaluatorTrait {
     }
 
     /**
-     * Check if the column is empty or null
-     * @param $column
+     * check if the given record is absolutely new
      * @return bool
      */
-    public function isNull ($column) {
-        $value = $this->getAttribute($column);
-        if ( is_null($value) || empty($value) ) return true;
+    public function isNewRecord ()
+    {
+        if ( $this->getOriginal('id') != $this->getAttribute('id') ) return true;
 
         return false;
     }
@@ -39,8 +40,22 @@ trait ModelEvaluatorTrait {
      * @param $column
      * @return bool
      */
-    public function isNotNull ($column) {
+    public function isNotNull ($column)
+    {
         return !$this->isNull($column);
+    }
+
+    /**
+     * Check if the column is empty or null
+     * @param $column
+     * @return bool
+     */
+    public function isNull ($column)
+    {
+        $value = $this->getAttribute($column);
+        if ( is_null($value) || empty($value) ) return true;
+
+        return false;
     }
 
     /**
@@ -49,7 +64,8 @@ trait ModelEvaluatorTrait {
      * @param $value
      * @return bool
      */
-    public function gt ($column, $value) {
+    public function gt ($column, $value)
+    {
         if ( $this->getAttribute($column) > $value ) return true;
 
         return false;
@@ -61,7 +77,8 @@ trait ModelEvaluatorTrait {
      * @param $value
      * @return bool
      */
-    public function gteq ($column, $value) {
+    public function gteq ($column, $value)
+    {
         if ( $this->getAttribute($column) >= $value ) return true;
 
         return false;
@@ -73,7 +90,8 @@ trait ModelEvaluatorTrait {
      * @param $value
      * @return bool
      */
-    public function lt ($column, $value) {
+    public function lt ($column, $value)
+    {
         if ( $this->getAttribute($column) < $value ) return true;
 
         return false;
@@ -85,22 +103,9 @@ trait ModelEvaluatorTrait {
      * @param $value
      * @return bool
      */
-    public function lteq ($column, $value) {
+    public function lteq ($column, $value)
+    {
         if ( $this->getAttribute($column) <= $value ) return true;
-
-        return false;
-    }
-
-    /**
-     * between operator
-     * @param $column
-     * @param $start
-     * @param $end
-     * @return bool
-     */
-    public function between ($column, $start, $end) {
-        $value = $this->getAttribute($column);
-        if ( $value >= $start && $value <= $end ) return true;
 
         return false;
     }
@@ -112,18 +117,22 @@ trait ModelEvaluatorTrait {
      * @param $end
      * @return bool
      */
-    public function notBetween ($column, $start, $end) {
+    public function notBetween ($column, $start, $end)
+    {
         return !$this->between($column, $start, $end);
     }
 
     /**
-     * equality check operator
+     * between operator
      * @param $column
-     * @param $value
+     * @param $start
+     * @param $end
      * @return bool
      */
-    public function equals ($column, $value) {
-        if ( $this->getAttribute($column) == $value ) return true;
+    public function between ($column, $start, $end)
+    {
+        $value = $this->getAttribute($column);
+        if ( $value >= $start && $value <= $end ) return true;
 
         return false;
     }
@@ -134,8 +143,22 @@ trait ModelEvaluatorTrait {
      * @param $value
      * @return bool
      */
-    public function notEquals ($column, $value) {
+    public function notEquals ($column, $value)
+    {
         return !$this->equals($column, $value);
+    }
+
+    /**
+     * equality check operator
+     * @param $column
+     * @param $value
+     * @return bool
+     */
+    public function equals ($column, $value)
+    {
+        if ( $this->getAttribute($column) == $value ) return true;
+
+        return false;
     }
 
     /**
@@ -143,24 +166,16 @@ trait ModelEvaluatorTrait {
      * @param $column
      * @return mixed
      */
-    public function originalValue ($column) {
+    public function originalValue ($column)
+    {
         return $this->getOriginal($column);
     }
 
     /**
-     * check if the given record is absolutely new
      * @return bool
      */
-    public function isNewRecord () {
-        if ( $this->getOriginal('id') != $this->getAttribute('id') ) return true;
-
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isTrashed () {
+    public function isTrashed ()
+    {
         return $this->getAttribute('deleted_at') ? true : false;
     }
 
@@ -169,7 +184,8 @@ trait ModelEvaluatorTrait {
      * @param array $args
      * @return bool
      */
-    public function isDuplicateRecord ($args = []) {
+    public function isDuplicateRecord ($args = [])
+    {
         //put check for empty array
         if ( !sizeof($args) ) return false;
 

@@ -7,7 +7,8 @@ namespace Drivezy\LaravelUtility\Library;
  * Class Message
  * @package Drivezy\LaravelUtility\Library
  */
-class Message {
+class Message
+{
     /**
      * @var array
      */
@@ -16,7 +17,8 @@ class Message {
     /**
      * @param $message
      */
-    public static function info ($message) {
+    public static function info ($message)
+    {
         if ( !isset(self::$message['info']) )
             self::$message['info'] = [];
 
@@ -28,7 +30,8 @@ class Message {
     /**
      * @param $message
      */
-    public static function error ($message) {
+    public static function error ($message)
+    {
         if ( !isset(self::$message['errors']) )
             self::$message['errors'] = [];
 
@@ -40,7 +43,8 @@ class Message {
     /**
      * @param $message
      */
-    public static function warn ($message) {
+    public static function warn ($message)
+    {
         if ( !isset(self::$message['warn']) )
             self::$message['warn'] = [];
 

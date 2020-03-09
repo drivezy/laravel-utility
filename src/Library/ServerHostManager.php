@@ -22,15 +22,6 @@ class ServerHostManager
     private static $pid = null;
 
     /**
-     * setup the hostname and the pid of the given instance
-     */
-    private static function init ()
-    {
-        self::$hostname = gethostname();
-        self::$pid = getmypid();
-    }
-
-    /**
      * return the hostname of the running server
      * @return bool
      */
@@ -39,6 +30,15 @@ class ServerHostManager
         if ( is_null(self::$hostname) ) self::init();
 
         return self::$hostname;
+    }
+
+    /**
+     * setup the hostname and the pid of the given instance
+     */
+    private static function init ()
+    {
+        self::$hostname = gethostname();
+        self::$pid = getmypid();
     }
 
     /**

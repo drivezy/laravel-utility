@@ -3,16 +3,17 @@
 namespace Drivezy\LaravelUtility\Controllers;
 
 use Drivezy\LaravelRecordManager\Controllers\RecordController;
-use Drivezy\LaravelUtility\Models\ScheduledJob;
+use Drivezy\LaravelUtility\Models\CommentDetail;
 
 /**
- * Class ScheduledJobController
+ * Class CommentController
  * @package Drivezy\LaravelUtility\Controllers
  */
-class ScheduledJobController extends RecordController
+class CommentController extends RecordController
 {
     /**
      * @var string
      */
-    protected $model = ScheduledJob::class;
+    protected $model = CommentDetail::class;
+
 }

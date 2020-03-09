@@ -6,25 +6,27 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDzLookupValuesTable extends Migration {
+class CreateDzLookupValuesTable extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up () {
+    public function up ()
+    {
         Schema::create('dz_lookup_values', function (Blueprint $table) {
             $userTable = LaravelUtility::getUserTable();
 
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('lookup_type_id')->nullable();
+            $table->increments('id');
+            $table->unsignedInteger('lookup_type_id')->nullable();
 
             $table->string('name');
             $table->text('value');
             $table->string('description')->nullable();
 
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
 
             $table->foreign('lookup_type_id')->references('id')->on('dz_lookup_types');
 
@@ -44,7 +46,8 @@ class CreateDzLookupValuesTable extends Migration {
      *
      * @return void
      */
-    public function down () {
+    public function down ()
+    {
         Schema::dropIfExists('dz_lookup_values');
     }
 }

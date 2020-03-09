@@ -6,15 +6,17 @@ use Drivezy\LaravelUtility\LaravelUtility;
 use Drivezy\LaravelUtility\Library\DateUtil;
 use Drivezy\LaravelUtility\Models\EventQueue;
 use Drivezy\LaravelUtility\Models\EventTrigger;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
+use Log;
 
 /**
  * Class BaseJob
- * @package JRApp\Jobs
+ * @package Drivezy\Jobs
  */
 class BaseJob implements ShouldQueue
 {
@@ -75,16 +77,6 @@ class BaseJob implements ShouldQueue
     }
 
     /**
-     * Report issue when things are not working fine
-     * @param $job
-     * @param $comments
-     */
-    public function reportIssue ($job, $comments)
-    {
-        if ( !$this->event ) return;
-    }
-
-    /**
      * Set up a new job trigger against the event
      * @param $identifier
      */
@@ -100,35 +92,21 @@ class BaseJob implements ShouldQueue
     }
 
     /**
+     * Report issue when things are not working fine
+     * @param $job
+     * @param $comments
+     */
+    public function reportIssue ($job, $comments)
+    {
+        if ( !$this->event ) return;
+    }
+
+    /**
      * @param null $exception
      */
     public function fail ($exception = null)
     {
 
-    }
-
-
-    /**
-     * @param $str
-     * @return bool
-     */
-    protected function info ($str)
-    {
-        if ( !$this->details ) return false;
-
-        if ( !$this->logFile ) $this->createFilePointer();
-
-        fwrite($this->fp, $str . PHP_EOL);
-    }
-
-    /**
-     * Create a file pointer which is to be used for logging purpose
-     */
-    private function createFilePointer ()
-    {
-        //create a pointer for file writing
-        $this->logFile = $this->details->id . '-jobs-' . strtotime('now') . '.txt';
-        $this->fp = fopen(storage_path() . '/logs/' . $this->logFile, 'w');
     }
 
     /**
@@ -155,9 +133,32 @@ class BaseJob implements ShouldQueue
             //delete the file if present
             try {
                 unlink(storage_path() . '/logs/' . $this->logFile);
-            } catch ( \Exception $e ) {
-                \Log::info('Error while deleting the file');
+            } catch ( Exception $e ) {
+                Log::info('Error while deleting the file');
             }
         }
+    }
+
+    /**
+     * @param $str
+     * @return bool
+     */
+    protected function info ($str)
+    {
+        if ( !$this->details ) return false;
+
+        if ( !$this->logFile ) $this->createFilePointer();
+
+        fwrite($this->fp, $str . PHP_EOL);
+    }
+
+    /**
+     * Create a file pointer which is to be used for logging purpose
+     */
+    private function createFilePointer ()
+    {
+        //create a pointer for file writing
+        $this->logFile = $this->details->id . '-jobs-' . strtotime('now') . '.txt';
+        $this->fp = fopen(storage_path() . '/logs/' . $this->logFile, 'w');
     }
 }

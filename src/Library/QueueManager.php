@@ -9,10 +9,14 @@ use Illuminate\Support\Facades\Cache;
 
 /**
  * Class QueueManager
- * @package JRApp\Libraries\Queue
+ * @package Drivezy\Libraries\Queue
  */
 class QueueManager extends Command
 {
+    /**
+     * @var
+     */
+    protected $identifier;
     /**
      * @var bool|string
      */
@@ -21,16 +25,10 @@ class QueueManager extends Command
      * @var int
      */
     private $iterations = 0;
-
     /**
      * @var null
      */
     private $queueManager = null;
-
-    /**
-     * @var
-     */
-    protected $identifier;
 
     /**
      * QueueManager constructor.
@@ -42,12 +40,11 @@ class QueueManager extends Command
     }
 
     /**
-     * This would give the time when the code restart was requested
-     * @return mixed
+     * Close off the request object
      */
-    protected function getLastRestartTime ()
+    public function __destruct ()
     {
-        return Cache::get('illuminate:queue:restart');
+        Cache::forever($this->identifier, false);
     }
 
     /**
@@ -60,6 +57,23 @@ class QueueManager extends Command
             $this->restart();
 
         $this->iterations = 0;
+    }
+
+    /**
+     * This would give the time when the code restart was requested
+     * @return mixed
+     */
+    protected function getLastRestartTime ()
+    {
+        return Cache::get('illuminate:queue:restart');
+    }
+
+    /**
+     * Exit the daemon process
+     */
+    private function restart ()
+    {
+        exit(0);
     }
 
     /**
@@ -82,22 +96,6 @@ class QueueManager extends Command
     protected function rest ()
     {
         sleep(rand(3, $this->sleep_timing));
-    }
-
-    /**
-     * Exit the daemon process
-     */
-    private function restart ()
-    {
-        exit(0);
-    }
-
-    /**
-     * Close off the request object
-     */
-    public function __destruct ()
-    {
-        Cache::forever($this->identifier, false);
     }
 
 }

@@ -1,11 +1,12 @@
 <?php
 
 use Drivezy\LaravelUtility\Library\Message;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 /**
- * @return \Illuminate\Http\JsonResponse
+ * @return JsonResponse
  */
 function invalid_operation ()
 {
@@ -23,16 +24,16 @@ function unsupported_operation ()
 /**
  * @param $message
  * @param null $errorCode
- * @return \Illuminate\Http\JsonResponse
+ * @return JsonResponse
  */
 function failed_response ($message, $errorCode = null)
 {
-    return Response::json(failure_message($message, $errorCode));
+    return Response::json(['success' => false, 'response' => $message, 'error_code' => $errorCode]);
 }
 
 /**
  * @param $message
- * @return \Illuminate\Http\JsonResponse
+ * @return JsonResponse
  */
 function success_response ($message)
 {

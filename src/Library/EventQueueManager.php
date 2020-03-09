@@ -35,6 +35,75 @@ class EventQueueManager extends QueueManager
     }
 
     /**
+     * Drop all event queues that are still pending against the given attributes
+     * @param $eventName
+     * @param array $options
+     */
+    public static function dropEvent ($eventName, $options = [])
+    {
+        $queue = EventQueue::whereNull('start_time')->where('event_name', $eventName);
+
+        foreach ( $options as $key => $value )
+            $queue->where($key, $value);
+
+        $queue->delete();
+    }
+
+    /**
+     * create and drop event as per the given inputs.
+     * one single function that would create for two
+     * @param $eventName
+     * @param array $options
+     */
+    public static function dropAndSetEvent ($eventName, $options = [])
+    {
+        $queue = EventQueue::whereNull('start_time')->where('event_name', $eventName);
+
+        foreach ( $options as $key => $value ) {
+            if ( $key == 'scheduled_start_time' ) continue;
+
+            $queue->where($key, $value);
+        }
+
+        //find all records that are existing in the event queue
+        $records = $queue->get();
+        foreach ( $records as $record ) {
+            self::setEvent($eventName, $record->object_value, $options);
+            $record->save();
+        }
+
+        //if no such events are found, create a fresh event against the item
+        if ( sizeof($records) )
+            self::setEvent($eventName, null, $options);
+
+    }
+
+    /**
+     * @param $eventName
+     * @param $value
+     * @param array $options
+     * @return EventQueue
+     */
+    public static function setEvent ($eventName, $value, $options = [])
+    {
+        $event = EventDetail::where('event_name', $eventName)->first();
+
+        $queue = new EventQueue();
+
+        $queue->event_id = $event ? $event->id : null;
+        $queue->event_name = $eventName;
+        $queue->object_value = $value;
+
+        foreach ( $options as $key => $value )
+            $queue->setAttribute($key, $value);
+
+        $queue->scheduled_start_time = $queue->scheduled_start_time ? : DateUtil::getDateTime();
+        $queue->save();
+
+        return $queue;
+    }
+
+    /**
      * This would poll the event queue table and would process it.
      */
     public function processQueue ()
@@ -83,6 +152,61 @@ class EventQueueManager extends QueueManager
     }
 
     /**
+     * This would get the pending events from the system
+     * @return mixed
+     */
+    private function getPendingEvents ()
+    {
+        return EventQueue::pending()->with('event_detail')
+            ->orderBy('scheduled_start_time', 'asc')
+            ->limit(100)
+            ->get();
+    }
+
+    /**
+     * @param $event
+     * @return mixed
+     */
+    private function saveEvent ($event)
+    {
+        $event->pick_latency = $this->getEventLatency($event);
+        $event->end_time = DateUtil::getDateTime();
+        $event->save();
+
+        $this->setIteration();
+
+        return $event;
+    }
+
+    /**
+     * Capture latency of the event
+     * @param $event
+     * @return false|int
+     */
+    private function getEventLatency ($event)
+    {
+        $timings = [
+            strtotime($event->created_at),
+            strtotime($event->updated_at),
+            strtotime($event->scheduled_start_time),
+        ];
+        rsort($timings);
+
+        return strtotime($event->start_time) - $timings[0];
+    }
+
+    /**
+     * set the appropriate messaging
+     */
+    private function setIteration ()
+    {
+        ++$this->iterations;
+        if ( $this->iterations % 100 == 0 ) {
+            echo "processed event queues since : " . $this->startTime . " value : " . $this->iterations . PHP_EOL;
+        }
+    }
+
+    /**
      * process the job which is attached with the event queue
      * @param EventQueue $queue
      */
@@ -113,130 +237,6 @@ class EventQueueManager extends QueueManager
         $handler = $queue->event_detail;
         if ( $handler->notification_id )
             dispatch(new QueueNotificationManagerJob($handler->notification_id, $queue->id));
-    }
-
-    /**
-     * set the appropriate messaging
-     */
-    private function setIteration ()
-    {
-        ++$this->iterations;
-        if ( $this->iterations % 100 == 0 ) {
-            echo "processed event queues since : " . $this->startTime . " value : " . $this->iterations . PHP_EOL;
-        }
-    }
-
-    /**
-     * @param $event
-     * @return mixed
-     */
-    private function saveEvent ($event)
-    {
-        $event->pick_latency = $this->getEventLatency($event);
-        $event->end_time = DateUtil::getDateTime();
-        $event->save();
-
-        $this->setIteration();
-
-        return $event;
-    }
-
-    /**
-     * This would get the pending events from the system
-     * @return mixed
-     */
-    private function getPendingEvents ()
-    {
-        return EventQueue::pending()->with('event_detail')
-            ->orderBy('scheduled_start_time', 'asc')
-            ->limit(100)
-            ->get();
-    }
-
-    /**
-     * Capture latency of the event
-     * @param $event
-     * @return false|int
-     */
-    private function getEventLatency ($event)
-    {
-        $timings = [
-            strtotime($event->created_at),
-            strtotime($event->updated_at),
-            strtotime($event->scheduled_start_time),
-        ];
-        rsort($timings);
-
-        return strtotime($event->start_time) - $timings[0];
-    }
-
-    /**
-     * @param $eventName
-     * @param $value
-     * @param array $options
-     * @return EventQueue
-     */
-    public static function setEvent ($eventName, $value, $options = [])
-    {
-        $event = EventDetail::where('event_name', $eventName)->first();
-
-        $queue = new EventQueue();
-
-        $queue->event_id = $event ? $event->id : null;
-        $queue->event_name = $eventName;
-        $queue->object_value = $value;
-
-        foreach ( $options as $key => $value )
-            $queue->setAttribute($key, $value);
-
-        $queue->scheduled_start_time = $queue->scheduled_start_time ? : DateUtil::getDateTime();
-        $queue->save();
-
-        return $queue;
-    }
-
-    /**
-     * Drop all event queues that are still pending against the given attributes
-     * @param $eventName
-     * @param array $options
-     */
-    public static function dropEvent ($eventName, $options = [])
-    {
-        $queue = EventQueue::whereNull('start_time')->where('event_name', $eventName);
-
-        foreach ( $options as $key => $value )
-            $queue->where($key, $value);
-
-        $queue->delete();
-    }
-
-    /**
-     * create and drop event as per the given inputs.
-     * one single function that would create for two
-     * @param $eventName
-     * @param array $options
-     */
-    public static function dropAndSetEvent ($eventName, $options = [])
-    {
-        $queue = EventQueue::whereNull('start_time')->where('event_name', $eventName);
-
-        foreach ( $options as $key => $value ) {
-            if ( $key == 'scheduled_start_time' ) continue;
-
-            $queue->where($key, $value);
-        }
-
-        //find all records that are existing in the event queue
-        $records = $queue->get();
-        foreach ( $records as $record ) {
-            self::setEvent($eventName, $record->object_value, $options);
-            $record->save();
-        }
-
-        //if no such events are found, create a fresh event against the item
-        if ( sizeof($records) )
-            self::setEvent($eventName, null, $options);
-
     }
 }
 

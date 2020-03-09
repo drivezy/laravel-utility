@@ -9,11 +9,13 @@ use Drivezy\LaravelRecordManager\Library\BusinessRuleManager;
  * Class BaseSeeder
  * @package Drivezy\LaravelUtility\src\Database\Seeds
  */
-class BaseSeeder {
+class BaseSeeder
+{
     /**
      * BaseSeeder constructor.
      */
-    public function __construct () {
+    public function __construct ()
+    {
         //dont let the business rule run when db seeder are executed
         BusinessRuleManager::$enabled = false;
 

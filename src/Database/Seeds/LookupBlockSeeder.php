@@ -4,20 +4,21 @@ namespace Drivezy\LaravelUtility\Database\Seeds;
 
 use Drivezy\LaravelUtility\Models\LookupType;
 use Drivezy\LaravelUtility\Models\LookupValue;
-use Drivezy\LaravelUtility\Database\Seeds\BaseSeeder;
 
 /**
  * Class LookupBlockSeeder
  * @package Drivezy\LaravelUtility\Database\Seeds
  */
-class LookupBlockSeeder extends BaseSeeder {
+class LookupBlockSeeder extends BaseSeeder
+{
 
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run () {
+    public function run ()
+    {
         //block the lookup type till id 100
         $obj = LookupType::create([
             'id'          => 100,

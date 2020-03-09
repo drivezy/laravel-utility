@@ -8,7 +8,6 @@ use Drivezy\LaravelUtility\Models\WorkerJob;
 use Drivezy\LaravelUtility\Models\WorkerProcess;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Redis;
 
 /**
  * Class JobProcessingEventManager

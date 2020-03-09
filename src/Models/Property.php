@@ -8,7 +8,8 @@ use Drivezy\LaravelUtility\Observers\PropertyObserver;
  * Class Property
  * @package Drivezy\LaravelUtility\Models
  */
-class Property extends BaseModel {
+class Property extends BaseModel
+{
     /**
      * @var string
      */
@@ -17,7 +18,8 @@ class Property extends BaseModel {
     /**
      * Load the observer rule against the model
      */
-    public static function boot () {
+    public static function boot ()
+    {
         parent::boot();
         self::observe(new PropertyObserver());
     }

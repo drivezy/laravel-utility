@@ -6,6 +6,7 @@ use Cron\CronExpression;
 use Drivezy\LaravelUtility\Library\DateUtil;
 use Drivezy\LaravelUtility\Models\EventQueue;
 use Drivezy\LaravelUtility\Models\ScheduledJob;
+use Exception;
 
 /**
  * Class ScheduledJobManagerJob
@@ -56,7 +57,6 @@ class ScheduledJobManagerJob extends BaseJob
     {
         //check if the given event exists against the given job
         if ( !$job->event ) return;
-        if ( DateUtil::getDateTimeDifference($job->end_time, DateUtil::getDateTime()) > 0 ) return;
 
         //get the count of events already registered which are active
         $inQueue = EventQueue::active()->where('source_type', '=', $this->source_class)->where('source_id', $job->id)->count();
@@ -70,7 +70,7 @@ class ScheduledJobManagerJob extends BaseJob
             try {
                 $cron = CronExpression::factory($job->timing);
                 $nextRunTime = $cron->getNextRunDate($nextRunTime)->format('Y-m-d H:i:s');
-            } catch ( \Exception $e ) {
+            } catch ( Exception $e ) {
                 break;
             }
 

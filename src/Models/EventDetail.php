@@ -18,19 +18,19 @@ class EventDetail extends BaseModel
     protected $table = 'dz_event_details';
 
     /**
-     * @return mixed
-     */
-    public function notification ()
-    {
-        return $this->belongsTo(Notification::class);
-    }
-
-    /**
      * Load the observer rule against the model
      */
     public static function boot ()
     {
         parent::boot();
         self::observe(new EventDetailObserver());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function notification ()
+    {
+        return $this->belongsTo(Notification::class);
     }
 }

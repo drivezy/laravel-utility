@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 /**
  * Class LaravelUtility
@@ -50,7 +51,7 @@ class LaravelUtility
      */
     public static function getUserTable ()
     {
-        $userClass = config('custom-utility.app_namespace') . '\\User';
+        $userClass = config('utility.app_namespace') . '\\User';
 
         return ( new $userClass() )->getTable();
     }
@@ -60,7 +61,7 @@ class LaravelUtility
      */
     public static function getUserModelFullQualifiedName ()
     {
-        return config('custom-utility.app_namespace') . '\\User';
+        return config('utility.app_namespace') . '\\User';
     }
 
     /**
@@ -131,7 +132,7 @@ class LaravelUtility
      * @param $string
      * @param $object
      * @return string
-     * @throws \Symfony\Component\Debug\Exception\FatalThrowableError
+     * @throws FatalThrowableError
      */
     public static function parseBladeToString ($string, $object)
     {

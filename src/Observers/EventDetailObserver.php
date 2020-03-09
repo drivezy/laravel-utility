@@ -6,7 +6,8 @@ namespace Drivezy\LaravelUtility\Observers;
  * Class EventDetailObserver
  * @package Drivezy\LaravelUtility\Observers
  */
-class EventDetailObserver extends BaseObserver {
+class EventDetailObserver extends BaseObserver
+{
 
     /**
      * @var array

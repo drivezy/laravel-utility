@@ -2,7 +2,6 @@
 
 namespace Drivezy\LaravelUtility\Models;
 
-use Drivezy\LaravelRecordManager\Models\DynamoEloquentTrait;
 use Drivezy\LaravelUtility\LaravelUtility;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,18 +14,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BaseModel extends Model
 {
     use SoftDeletes;
-    use ModelEvaluatorTrait;
-    use AuditableTrait;
-    use DynamoEloquentTrait;
-
-    public $class_hash = null;
-    protected $abort = false;
-    public $abort_business_rule = false;
-
-    /**
-     * @var array
-     */
-    protected $guarded = ['created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by'];
+    use ModelEvaluator;
+    use Auditable;
 
     /**
      * @var array
@@ -36,6 +25,13 @@ class BaseModel extends Model
      * @var array
      */
     public static $default_hidden_columns = ['created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by'];
+    public $class_hash = null;
+    public $abort_business_rule = false;
+    protected $abort = false;
+    /**
+     * @var array
+     */
+    protected $guarded = ['created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by'];
 
     /**
      * BaseModel constructor.
@@ -62,14 +58,5 @@ class BaseModel extends Model
     public function updated_user ()
     {
         return $this->belongsTo(LaravelUtility::getUserModelFullQualifiedName(), 'updated_by');
-    }
-
-    /**
-     * get the md5 hash of the model class
-     * @return string
-     */
-    public static function getModelHash ()
-    {
-        return md5(get_called_class());
     }
 }

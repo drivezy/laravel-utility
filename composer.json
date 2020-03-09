@@ -1,29 +1,29 @@
 {
-  "name": "drivezy/laravel-utility",
-  "description": "Base functionality for a scalable application.",
-  "type": "library",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Hemant Kumar Sah",
-      "email": "hemantanshu@gmail.com"
-    }
-  ],
-  "minimum-stability": "stable",
-  "require": {},
-  "autoload": {
-    "psr-4": {
-      "Drivezy\\LaravelUtility\\": "src/"
+    "name": "drivezy/laravel-utility",
+    "description": "Base functionality for a scalable application.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hemant Kumar Sah",
+            "email": "hemantanshu@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Drivezy\\LaravelUtility\\": "src/"
+        },
+        "files": [
+            "src/Library/helpers.php"
+        ]
     },
-    "files": [
-      "src/Library/helpers.php"
-    ]
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Drivezy\\LaravelUtility\\LaravelUtilityServiceProvider"
-      ]
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Drivezy\\LaravelUtility\\LaravelUtilityServiceProvider"
+            ]
+        }
     }
-  }
 }

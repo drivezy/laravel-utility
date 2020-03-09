@@ -2,9 +2,10 @@
 
 namespace Drivezy\LaravelUtility\Models;
 
-use Drivezy\LaravelUtility\Observers\CommentDetailObserver;
+use Drivezy\LaravelUtility\Observers\CommentDetailobserver;
 
-class CommentDetail extends BaseModel {
+class CommentDetail extends BaseModel
+{
     /**
      * @var string
      */
@@ -13,9 +14,10 @@ class CommentDetail extends BaseModel {
     /**
      * Load the observer rule against the model
      */
-    public static function boot () {
+    public static function boot ()
+    {
         parent::boot();
-        self::observe(new CommentDetailObserver());
+        self::observe(new CommentDetailobserver());
     }
 
 }

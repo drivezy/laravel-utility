@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
  * Class UserPreferenceController
  * @package Drivezy\LaravelUtility\Controllers
  */
-class UserPreferenceController extends RecordController {
+class UserPreferenceController extends RecordController
+{
     /**
      * @var string
      */
@@ -21,7 +22,8 @@ class UserPreferenceController extends RecordController {
      * @param Request $request
      * @return mixed|null
      */
-    public function store (Request $request) {
+    public function store (Request $request)
+    {
         $user = Auth::user();
 
         //check if the given user has the same preference or not.

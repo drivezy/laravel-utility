@@ -9,7 +9,8 @@ use Drivezy\LaravelUtility\Models\EventTrigger;
  * Class EventTriggerController
  * @package Drivezy\LaravelUtility\Controllers
  */
-class EventTriggerController extends ReadRecordController {
+class EventTriggerController extends ReadRecordController
+{
     /**
      * @var string
      */

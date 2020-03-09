@@ -23,35 +23,6 @@ class QueueStatsManager
     private static $exceptions = null;
 
     /**
-     * initialize the variable against the configuration setup by the user on utility
-     */
-    public static function init ()
-    {
-        self::$exceptions = config('custom-utility.job_stats_exceptions') ?? [];
-    }
-
-    /**
-     * utility function to get the static value of the job exceptions
-     * this is loaded only on first call
-     * @return null
-     */
-    public static function getJobExceptions ()
-    {
-        if ( is_null(self::$exceptions) ) self::init();
-
-        return self::$exceptions;
-    }
-
-    /**
-     * get the current minute passed on since epoch
-     * @return int
-     */
-    public static function getCurrentMinute ()
-    {
-        return (int) ( strtotime('now') / 60 );
-    }
-
-    /**
      * this would interface with the controller which would intercept request from the worker server
      * the worker server would broadcast all the pids that are of php and are active on the system
      * @param Request $request
@@ -122,6 +93,26 @@ class QueueStatsManager
     }
 
     /**
+     * utility function to get the static value of the job exceptions
+     * this is loaded only on first call
+     * @return null
+     */
+    public static function getJobExceptions ()
+    {
+        if ( is_null(self::$exceptions) ) self::init();
+
+        return self::$exceptions;
+    }
+
+    /**
+     * initialize the variable against the configuration setup by the user on utility
+     */
+    public static function init ()
+    {
+        self::$exceptions = config('custom-utility.job_stats_exceptions') ?? [];
+    }
+
+    /**
      * find all worker hosts that are still active in the system
      * @return array
      */
@@ -133,6 +124,15 @@ class QueueStatsManager
             array_push($hosts, $record->hostname);
 
         return $hosts;
+    }
+
+    /**
+     * get the current minute passed on since epoch
+     * @return int
+     */
+    public static function getCurrentMinute ()
+    {
+        return (int) ( strtotime('now') / 60 );
     }
 
     /**

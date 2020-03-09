@@ -9,7 +9,8 @@ use Drivezy\LaravelUtility\Models\EventQueue;
  * Class EventQueueController
  * @package Drivezy\LaravelUtility\Controllers
  */
-class EventQueueController extends RecordController {
+class EventQueueController extends RecordController
+{
     /**
      * @var string
      */
