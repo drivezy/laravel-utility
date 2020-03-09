@@ -35,19 +35,19 @@ class ScheduledJobObserver extends BaseObserver
     }
 
     /**
+     * @param $model
+     */
+    private function dropScheduledJobs ($model)
+    {
+        EventQueue::where('source_type', md5(ScheduledJob::class))->where('source_id', $model->id)->delete();
+    }
+
+    /**
      * @param Eloquent $model
      */
     public function deleted (Eloquent $model)
     {
         parent::deleted($model);
         $this->dropScheduledJobs();
-    }
-
-    /**
-     * @param $model
-     */
-    private function dropScheduledJobs ($model)
-    {
-        EventQueue::where('source_type', md5(ScheduledJob::class))->where('source_id', $model->id)->delete();
     }
 }

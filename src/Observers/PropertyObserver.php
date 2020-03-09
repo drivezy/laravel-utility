@@ -2,14 +2,15 @@
 
 namespace Drivezy\LaravelUtility\Observers;
 
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class PropertyObserver
  * @package Drivezy\LaravelUtility\Observers
  */
-class PropertyObserver extends BaseObserver {
+class PropertyObserver extends BaseObserver
+{
     /**
      * @var array
      */
@@ -21,7 +22,8 @@ class PropertyObserver extends BaseObserver {
     /**
      * @param Eloquent $model
      */
-    public function saved (Eloquent $model) {
+    public function saved (Eloquent $model)
+    {
         parent::saved($model);
 
         //save the property in the cache for quick access

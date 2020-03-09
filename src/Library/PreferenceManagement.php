@@ -9,14 +9,16 @@ use Illuminate\Support\Facades\Auth;
  * Class PreferenceManagement
  * @package Drivezy\LaravelUtility\Library
  */
-class PreferenceManagement {
+class PreferenceManagement
+{
 
     /**
      * @param $key
      * @param null $userId
      * @return null
      */
-    public static function getUserPreference ($key, $userId = null) {
+    public static function getUserPreference ($key, $userId = null)
+    {
         $userId = $userId ? : Auth::id();
 
         //check if user has the individual preference set against it
@@ -31,7 +33,8 @@ class PreferenceManagement {
      * @param $key
      * @return null
      */
-    public static function getGlobalPreference ($key) {
+    public static function getGlobalPreference ($key)
+    {
         //check if global preference is set against the key
         $preference = UserPreference::whereNull('user_id')->where('key', $key)->first();
         if ( $preference )
@@ -46,7 +49,8 @@ class PreferenceManagement {
      * @param null $userId
      * @return mixed
      */
-    public static function setUserPreference ($key, $value, $userId = null) {
+    public static function setUserPreference ($key, $value, $userId = null)
+    {
         $userId = $userId ? : Auth::id();
 
         $preference = UserPreference::firstOrNew([
@@ -65,7 +69,8 @@ class PreferenceManagement {
      * @param $value
      * @return mixed
      */
-    public static function setGlobalPreference ($key, $value) {
+    public static function setGlobalPreference ($key, $value)
+    {
         $preference = UserPreference::firstOrNew([
             'user_id' => null,
             'key'     => $key,
@@ -80,7 +85,8 @@ class PreferenceManagement {
     /**
      * @param $key
      */
-    public static function revokeUserIndividualPreference ($key) {
+    public static function revokeUserIndividualPreference ($key)
+    {
         UserPreference::whereNotNull('user_id')->where('key', $key)->delete();
     }
 
@@ -88,7 +94,8 @@ class PreferenceManagement {
      * @param $key
      * @param null $userId
      */
-    public static function deleteUserPreference ($key, $userId = null) {
+    public static function deleteUserPreference ($key, $userId = null)
+    {
         $userId = $userId ? : Auth::id();
         UserPreference::where('user_id', $userId)->where('key', $key)->delete();
     }

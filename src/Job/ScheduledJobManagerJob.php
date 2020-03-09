@@ -6,6 +6,7 @@ use Cron\CronExpression;
 use Drivezy\LaravelUtility\Library\DateUtil;
 use Drivezy\LaravelUtility\Models\EventQueue;
 use Drivezy\LaravelUtility\Models\ScheduledJob;
+use Exception;
 
 /**
  * Class ScheduledJobManagerJob
@@ -69,7 +70,7 @@ class ScheduledJobManagerJob extends BaseJob
             try {
                 $cron = CronExpression::factory($job->timing);
                 $nextRunTime = $cron->getNextRunDate($nextRunTime)->format('Y-m-d H:i:s');
-            } catch ( \Exception $e ) {
+            } catch ( Exception $e ) {
                 break;
             }
 

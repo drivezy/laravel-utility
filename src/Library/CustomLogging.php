@@ -6,7 +6,8 @@ namespace Drivezy\LaravelUtility\Library;
  * Class CustomLogging
  * @package Drivezy\LaravelUtility\Library
  */
-class CustomLogging {
+class CustomLogging
+{
     /**
      * @var array
      */
@@ -15,7 +16,8 @@ class CustomLogging {
     /**
      *
      */
-    public static function init () {
+    public static function init ()
+    {
         self::$message = [];
     }
 
@@ -23,7 +25,8 @@ class CustomLogging {
      * @param $key
      * @param $value
      */
-    public static function setResponseMessage ($key, $value) {
+    public static function setResponseMessage ($key, $value)
+    {
         if ( !isset(self::$message[ $key ]) )
             self::$message[ $key ] = [];
 
@@ -33,7 +36,8 @@ class CustomLogging {
     /**
      * @return array
      */
-    public static function getResponseMessage () {
+    public static function getResponseMessage ()
+    {
         return self::$message;
     }
 

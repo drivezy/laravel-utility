@@ -6,13 +6,15 @@ use Drivezy\LaravelUtility\Commands\EventQueueProcessorCommand;
 use Drivezy\LaravelUtility\Library\Message;
 use Illuminate\Support\ServiceProvider;
 
-class LaravelUtilityServiceProvider extends ServiceProvider {
+class LaravelUtilityServiceProvider extends ServiceProvider
+{
     /**
      * Bootstrap services.
      *
      * @return void
      */
-    public function boot () {
+    public function boot ()
+    {
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
 
         $this->publishes([
@@ -35,7 +37,8 @@ class LaravelUtilityServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function register () {
+    public function register ()
+    {
         $this->app->bind('message', Message::class);
     }
 }

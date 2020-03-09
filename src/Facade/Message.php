@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Facade;
  * Class Message
  * @package Drivezy\LaravelUtility\Facade
  */
-class Message extends Facade {
+class Message extends Facade
+{
     /**
      * @return string
      */
-    protected static function getFacadeAccessor () {
+    protected static function getFacadeAccessor ()
+    {
         return 'message';
     }
 }

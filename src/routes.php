@@ -10,6 +10,8 @@ Route::group(['namespace' => 'Drivezy\LaravelUtility\Controllers',
     Route::resource('eventQueue', 'EventQueueController');
     Route::resource('eventTrigger', 'EventTriggerController');
     Route::resource('scheduledJob', 'ScheduledJobController');
+
+    Route::resource('comment', 'CommentController');
 });
 
 ?>

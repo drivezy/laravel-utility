@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
  * Class UserPreferenceObserver
  * @package Drivezy\LaravelUtility\Observers
  */
-class UserPreferenceObserver extends BaseObserver {
+class UserPreferenceObserver extends BaseObserver
+{
     /**
      * @var array
      */
@@ -22,7 +23,8 @@ class UserPreferenceObserver extends BaseObserver {
      * @param Eloquent $model
      * @return bool
      */
-    public function saving (Eloquent $model) {
+    public function saving (Eloquent $model)
+    {
         if ( Auth::check() )
             $model->user_id = $model->user_id ? : Auth::id();
 

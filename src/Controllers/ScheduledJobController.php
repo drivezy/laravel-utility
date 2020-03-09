@@ -9,7 +9,8 @@ use Drivezy\LaravelUtility\Models\ScheduledJob;
  * Class ScheduledJobController
  * @package Drivezy\LaravelUtility\Controllers
  */
-class ScheduledJobController extends RecordController {
+class ScheduledJobController extends RecordController
+{
     /**
      * @var string
      */

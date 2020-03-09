@@ -8,7 +8,8 @@ namespace Drivezy\LaravelUtility\Models;
  * Trait ModelEvaluator
  * @package Drivezy\LaravelUtility\Models
  */
-trait Auditable {
+trait Auditable
+{
     /**
      * if the audit is enabled or not at the global level
      * @var bool

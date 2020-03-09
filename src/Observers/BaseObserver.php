@@ -5,8 +5,10 @@ namespace Drivezy\LaravelUtility\Observers;
 use Drivezy\LaravelAccessManager\ImpersonationManager;
 use Drivezy\LaravelRecordManager\Jobs\ObserverEventManagerJob;
 use Drivezy\LaravelRecordManager\Library\BusinessRuleManager;
+use Exception;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
 /**
  * Class BaseObserver
@@ -50,7 +52,7 @@ class BaseObserver
         else
             $rules = sizeof($this->createRules) ? $this->createRules : $this->rules;
 
-        $this->validator = \Validator::make([], $rules);
+        $this->validator = Validator::make([], $rules);
         $this->validator->setData($model->getAttributes());
 
         if ( $this->validator->fails() ) {
@@ -71,13 +73,32 @@ class BaseObserver
 
     /**
      * @param Eloquent $model
+     * @throws Exception
+     */
+    protected function saveObserverEvent (Eloquent $model)
+    {
+        //create object against the observer event
+        $obj = new ObserverEventManagerJob($model);
+
+        //see if the dispatching fails then run the job serially in the system.
+        //only applicable for those events wherein the request size is extremely big
+        //cannot do for all as this request will take little more time to move ahead
+        try {
+            dispatch($obj);
+        } catch ( Exception $e ) {
+            ( $obj )->handle();
+        }
+    }
+
+    /**
+     * @param Eloquent $model
      * @return bool
      */
     public function updating (Eloquent $model)
     {
         $rules = sizeof($this->updateRules) ? $this->updateRules : $this->rules;
 
-        $this->validator = \Validator::make([], $rules);
+        $this->validator = Validator::make([], $rules);
         $this->validator->setData($model->getAttributes());
 
         if ( $this->validator->fails() ) {
@@ -111,7 +132,7 @@ class BaseObserver
     {
         $rules = sizeof($this->createRules) ? $this->createRules : $this->rules;
 
-        $this->validator = \Validator::make([], $rules);
+        $this->validator = Validator::make([], $rules);
         $this->validator->setData($model->getAttributes());
 
         if ( $this->validator->fails() ) {
@@ -175,25 +196,6 @@ class BaseObserver
      */
     public function restored (Eloquent $model)
     {
-    }
-
-    /**
-     * @param Eloquent $model
-     * @throws \Exception
-     */
-    protected function saveObserverEvent (Eloquent $model)
-    {
-        //create object against the observer event
-        $obj = new ObserverEventManagerJob($model);
-
-        //see if the dispatching fails then run the job serially in the system.
-        //only applicable for those events wherein the request size is extremely big
-        //cannot do for all as this request will take little more time to move ahead
-        try {
-            dispatch($obj);
-        } catch ( \Exception $e ) {
-            ( $obj )->handle();
-        }
     }
 
     /**

@@ -4,6 +4,8 @@ namespace Drivezy\LaravelUtility\Library;
 
 use Drivezy\LaravelUtility\LaravelUtility;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\StreamInterface;
 
 class RemoteRequest
 {
@@ -69,8 +71,8 @@ class RemoteRequest
      * @param $content
      * @param $path
      * @param array $headers
-     * @return array|\Psr\Http\Message\StreamInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array|StreamInterface
+     * @throws GuzzleException
      */
     public static function multipartPostRequest ($url, $content, $path, $headers = [])
     {
@@ -139,8 +141,8 @@ class RemoteRequest
      * @param $params
      * @param string $method
      * @param null $header
-     * @return \Psr\Http\Message\StreamInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return StreamInterface
+     * @throws GuzzleException
      */
     public static function pushJsonRequest ($url, $params, $method = 'POST', $header = null)
     {
@@ -170,7 +172,7 @@ class RemoteRequest
      * @param $headers
      * @param $query
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public static function getJson ($url, $headers, $query)
     {

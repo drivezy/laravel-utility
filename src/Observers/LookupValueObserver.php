@@ -6,7 +6,8 @@ namespace Drivezy\LaravelUtility\Observers;
  * Class LookupValueObserver
  * @package Drivezy\LaravelUtility\Observers
  */
-class LookupValueObserver extends BaseObserver {
+class LookupValueObserver extends BaseObserver
+{
 
     /**
      * @var array

@@ -2,17 +2,22 @@
 
 namespace Drivezy\LaravelUtility\Library;
 
+use DateTime;
+use DateTimeZone;
+
 /**
  * Class DateUtil
  * @package Drivezy\LaravelUtility\Library
  */
-class DateUtil {
+class DateUtil
+{
     /**
      * @param $sDate
      * @param $eDate
      * @return int
      */
-    public static function getDateTimeDifference ($sDate, $eDate) {
+    public static function getDateTimeDifference ($sDate, $eDate)
+    {
         return ( strtotime($eDate) - strtotime($sDate) );
     }
 
@@ -21,7 +26,8 @@ class DateUtil {
      * @param $eTime
      * @return float
      */
-    public static function getTimeDifference ($sTime, $eTime) {
+    public static function getTimeDifference ($sTime, $eTime)
+    {
         $timeDifference = strtotime($eTime) - strtotime($sTime);
 
         return floor($timeDifference / ( 60 * 60 ));
@@ -32,7 +38,8 @@ class DateUtil {
      * @param $endDate
      * @return float
      */
-    public static function getDateDifference ($startDate, $endDate) {
+    public static function getDateDifference ($startDate, $endDate)
+    {
         $dateDifference = ( strtotime($endDate) - strtotime($startDate) );
 
         return floor($dateDifference / ( 60 * 60 * 24 )) + 1;
@@ -42,18 +49,8 @@ class DateUtil {
      * @param bool $time
      * @return bool|string
      */
-    public static function getDateTime ($time = false) {
-        if ( $time )
-            return date('Y-m-d H:i:s', $time);
-        else
-            return date('Y-m-d H:i:s');
-    }
-
-    /**
-     * @param bool $time
-     * @return bool|string
-     */
-    public static function getDate ($time = false) {
+    public static function getDate ($time = false)
+    {
         if ( $time )
             return date('Y-m-d', $time);
         else
@@ -65,11 +62,12 @@ class DateUtil {
      * @param bool $date
      * @return string
      */
-    public static function getFutureDate ($days, $date = false) {
+    public static function getFutureDate ($days, $date = false)
+    {
         if ( $date ) {
-            $d = new \DateTime($date);
+            $d = new DateTime($date);
         } else
-            $d = new \DateTime();
+            $d = new DateTime();
         $d->modify("+" . $days . " day");
 
         return $d->format('Y-m-d');
@@ -80,11 +78,12 @@ class DateUtil {
      * @param bool $date
      * @return string
      */
-    public static function getPastDate ($days, $date = false) {
+    public static function getPastDate ($days, $date = false)
+    {
         if ( $date ) {
-            $d = new \DateTime($date);
+            $d = new DateTime($date);
         } else
-            $d = new \DateTime();
+            $d = new DateTime();
         $d->modify("-" . $days . " day");
 
         return $d->format('Y-m-d');
@@ -95,7 +94,8 @@ class DateUtil {
      * @param bool $date
      * @return bool|string
      */
-    public static function getFutureTime ($minutes, $date = false) {
+    public static function getFutureTime ($minutes, $date = false)
+    {
         if ( $date ) {
             return self::getDateTime(strtotime($date) + $minutes * 60);
         } else {
@@ -104,11 +104,24 @@ class DateUtil {
     }
 
     /**
+     * @param bool $time
+     * @return bool|string
+     */
+    public static function getDateTime ($time = false)
+    {
+        if ( $time )
+            return date('Y-m-d H:i:s', $time);
+        else
+            return date('Y-m-d H:i:s');
+    }
+
+    /**
      * @param $minutes
      * @param bool $date
      * @return bool|string
      */
-    public static function getPastTime ($minutes, $date = false) {
+    public static function getPastTime ($minutes, $date = false)
+    {
         if ( $date ) {
             return self::getDateTime(strtotime($date) - $minutes * 60);
         } else {
@@ -121,7 +134,8 @@ class DateUtil {
      * @param bool $flag
      * @return false|string
      */
-    public static function getDisplayFormat ($date, $flag = false) {
+    public static function getDisplayFormat ($date, $flag = false)
+    {
         if ( $flag )
             return date('F d Y | h:i A', strtotime($date));
 
@@ -133,7 +147,8 @@ class DateUtil {
      * @param $minimumAge
      * @return bool
      */
-    public static function checkAgeEligibility ($dob, $minimumAge) {
+    public static function checkAgeEligibility ($dob, $minimumAge)
+    {
         return date($dob) <= date('Y-m-d', strtotime('-' . $minimumAge . ' years'));
     }
 
@@ -141,15 +156,16 @@ class DateUtil {
      * @param $dateTime
      * @return false|string
      */
-    public static function getTimeZone ($dateTime) {
-        $utc_date = \DateTime::createFromFormat(
+    public static function getTimeZone ($dateTime)
+    {
+        $utc_date = DateTime::createFromFormat(
             'Y-m-d H:i:s',
             $dateTime,
-            new \DateTimeZone('UTC')
+            new DateTimeZone('UTC')
         );
 
         $acst_date = clone $utc_date;
-        $acst_date->setTimeZone(new \DateTimeZone('America/Los_Angeles'));
+        $acst_date->setTimeZone(new DateTimeZone('America/Los_Angeles'));
 
         return $acst_date->format('Y-m-d H:i:s');
     }

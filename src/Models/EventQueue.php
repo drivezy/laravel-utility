@@ -14,11 +14,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class EventQueue extends BaseModel
 {
     /**
-     * @var string
-     */
-    protected $table = 'dz_event_queues';
-
-    /**
      * @var bool
      */
     public $observable = false;
@@ -26,6 +21,19 @@ class EventQueue extends BaseModel
      * @var bool
      */
     public $auditable = false;
+    /**
+     * @var string
+     */
+    protected $table = 'dz_event_queues';
+
+    /**
+     * Load the observer rule against the model
+     */
+    public static function boot ()
+    {
+        parent::boot();
+        self::observe(new EventQueueObserver());
+    }
 
     /**
      * @return BelongsTo
@@ -68,15 +76,6 @@ class EventQueue extends BaseModel
     public function triggers ()
     {
         return $this->hasMany(EventTrigger::class, 'event_queue_id');
-    }
-
-    /**
-     * Load the observer rule against the model
-     */
-    public static function boot ()
-    {
-        parent::boot();
-        self::observe(new EventQueueObserver());
     }
 
 }

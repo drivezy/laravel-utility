@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 /**
  * Class LaravelUtility
  * @package Drivezy\LaravelUtility
  */
-class LaravelUtility {
+class LaravelUtility
+{
 
     /**
      * Get the property from the system
@@ -20,7 +22,8 @@ class LaravelUtility {
      * @param bool $default
      * @return bool|string
      */
-    public static function getProperty ($property, $default = false) {
+    public static function getProperty ($property, $default = false)
+    {
         $key = 'system-property.' . $property;
 
         //check if the cache has that property saved within
@@ -46,7 +49,8 @@ class LaravelUtility {
     /**
      * @return mixed
      */
-    public static function getUserTable () {
+    public static function getUserTable ()
+    {
         $userClass = config('utility.app_namespace') . '\\User';
 
         return ( new $userClass() )->getTable();
@@ -55,7 +59,8 @@ class LaravelUtility {
     /**
      * @return string
      */
-    public static function getUserModelFullQualifiedName () {
+    public static function getUserModelFullQualifiedName ()
+    {
         return config('utility.app_namespace') . '\\User';
     }
 
@@ -64,7 +69,8 @@ class LaravelUtility {
      * @param $file
      * @return mixed
      */
-    public static function uploadToS3 ($path, $file) {
+    public static function uploadToS3 ($path, $file)
+    {
         Storage::disk('s3')->put($path, file_get_contents($file));
         Storage::disk('s3')->setVisibility($path, 'public');
 
@@ -76,7 +82,8 @@ class LaravelUtility {
      * @param $file
      * @return mixed
      */
-    public static function uploadToS3Restricted ($path, $file) {
+    public static function uploadToS3Restricted ($path, $file)
+    {
         Storage::disk('s3')->put($path, file_get_contents($file));
 
         return Storage::disk('s3')->url($path);
@@ -85,7 +92,8 @@ class LaravelUtility {
     /**
      * @return bool
      */
-    public static function isInstanceProduction () {
+    public static function isInstanceProduction ()
+    {
         return App::environment() == 'production' ? true : false;
     }
 
@@ -93,7 +101,8 @@ class LaravelUtility {
      * @param int $pIntLength
      * @return string
      */
-    public static function generateRandomAlphabets ($pIntLength = 8) {
+    public static function generateRandomAlphabets ($pIntLength = 8)
+    {
         $strAlphaNumericString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $strReturnString = '';
         for ( $intCounter = 0; $intCounter < $pIntLength; $intCounter++ ) {
@@ -107,7 +116,8 @@ class LaravelUtility {
      * @param int $pIntLength
      * @return string
      */
-    public static function generateRandomAlphaNumeric ($pIntLength = 24) {
+    public static function generateRandomAlphaNumeric ($pIntLength = 24)
+    {
         $strAlphaNumericString = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $strReturnString = '';
         for ( $intCounter = 0; $intCounter < $pIntLength; $intCounter++ ) {
@@ -122,9 +132,10 @@ class LaravelUtility {
      * @param $string
      * @param $object
      * @return string
-     * @throws \Symfony\Component\Debug\Exception\FatalThrowableError
+     * @throws FatalThrowableError
      */
-    public static function parseBladeToString ($string, $object) {
+    public static function parseBladeToString ($string, $object)
+    {
         $php = Blade::compileString($string);
 
         return render($php, ['data' => $object]);

@@ -4,13 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDzEventQueuesPickLatencyColumn extends Migration {
+class AddDzEventQueuesPickLatencyColumn extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up () {
+    public function up ()
+    {
         Schema::table('dz_event_queues', function (Blueprint $table) {
             $table->integer('pick_latency')->nullable();
         });
@@ -21,7 +23,8 @@ class AddDzEventQueuesPickLatencyColumn extends Migration {
      *
      * @return void
      */
-    public function down () {
+    public function down ()
+    {
         Schema::table('dz_event_queues', function (Blueprint $table) {
             $table->dropColumn('pick_latency');
         });
