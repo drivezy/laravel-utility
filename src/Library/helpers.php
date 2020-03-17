@@ -124,3 +124,15 @@ function sql ($query)
 {
     return DB::select(DB::raw($query));
 }
+
+/**
+ * send fixed response in case of invalid login
+ * @param null $message
+ * @return JsonResponse
+ */
+function invalid_login ($message = null)
+{
+    $message = $message ?? 'Invalid Credentials';
+
+    return failed_response($message, 401);
+}

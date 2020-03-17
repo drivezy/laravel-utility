@@ -3,9 +3,12 @@
 namespace Drivezy\LaravelUtility;
 
 use Drivezy\LaravelUtility\Models\Property;
+use Exception;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 
@@ -133,11 +136,26 @@ class LaravelUtility
      * @param $object
      * @return string
      * @throws FatalThrowableError
+     * @throws Exception
      */
     public static function parseBladeToString ($string, $object)
     {
         $php = Blade::compileString($string);
 
         return render($php, ['data' => $object]);
+    }
+
+    /**
+     * try decrypting a string and if not valid, then throw false rather than a exception
+     * @param $string
+     * @return bool|mixed
+     */
+    public static function decryptString ($string)
+    {
+        try {
+            return Crypt::decrypt($string);
+        } catch ( DecryptException $e ) {
+            return false;
+        }
     }
 }
