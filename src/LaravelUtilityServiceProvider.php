@@ -18,7 +18,7 @@ class LaravelUtilityServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
 
         $this->publishes([
-            __DIR__ . '/Config/Utility.php' => config_path('utility.php'),
+            __DIR__ . '/Config/utility.php' => config_path('utility.php'),
         ]);
 
         //load command defined in the system
