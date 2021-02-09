@@ -54,7 +54,7 @@ class LaravelUtility
      */
     public static function getUserTable ()
     {
-        $userClass = config('utility.app_namespace') . '\\User';
+        $userClass = config('custom-utility.app_namespace') . '\\User';
 
         return ( new $userClass() )->getTable();
     }
@@ -64,7 +64,7 @@ class LaravelUtility
      */
     public static function getUserModelFullQualifiedName ()
     {
-        return config('utility.app_namespace') . '\\User';
+        return config('custom-utility.app_namespace') . '\\User';
     }
 
     /**

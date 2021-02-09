@@ -2,7 +2,7 @@
 
 namespace Drivezy\LaravelUtility\Models;
 
-use Drivezy\LaravelUtility\Observers\CommentDetailobserver;
+use Drivezy\LaravelUtility\Observers\CommentDetailObserver;
 
 class CommentDetail extends BaseModel
 {
@@ -17,7 +17,7 @@ class CommentDetail extends BaseModel
     public static function boot ()
     {
         parent::boot();
-        self::observe(new CommentDetailobserver());
+        self::observe(new CommentDetailObserver());
     }
 
 }
