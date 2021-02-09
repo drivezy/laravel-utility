@@ -87,6 +87,7 @@ class BaseJob implements ShouldQueue
         $this->details->event_queue_id = $this->eventId;
         $this->details->identifier = $identifier;
         $this->details->start_time = DateUtil::getDateTime();
+        $this->details->end_time = DateUtil::getDateTime();
 
         $this->details->save();
     }
@@ -114,18 +115,6 @@ class BaseJob implements ShouldQueue
      */
     public function __destruct ()
     {
-        if ( !$this->details ) return;
-
-        $this->details->end_time = DateUtil::getDateTime();
-        $this->details->log_file = $this->logFile ? LaravelUtility::uploadToS3('/logs/' . $this->logFile, storage_path() . '/logs/' . $this->logFile) : null;
-
-        if ( $this->event->start_time )
-            $this->details->total_latency = strtotime('now') - strtotime($this->event->start_time) + $this->event->pick_latency;
-        else
-            $this->details->total_latency = strtotime('now') - strtotime($this->details->start_time);
-
-        $this->details->save();
-
         //close the file pointer and delete the log file
         if ( $this->fp ) {
             fclose($this->fp);
